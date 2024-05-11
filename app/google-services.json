@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "976272753848",
+    "project_id": "project2-icm",
+    "storage_bucket": "project2-icm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976272753848:android:760913bb38cb9c2b63e04d",
+        "android_client_info": {
+          "package_name": "ua.deti.pt.phoneapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAn97T6WszdGY_AkrI3ccFnnTpflaLz3k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
