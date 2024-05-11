@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.launch
 import ua.deti.pt.phoneapp.Auth.GoogleAuthUiClient
+import ua.deti.pt.phoneapp.Auth.ProfileScreen
 import ua.deti.pt.phoneapp.Auth.SignInScreen
 import ua.deti.pt.phoneapp.Auth.SignInViewModel
 import ua.deti.pt.phoneapp.ui.theme.PhoneAppTheme
