@@ -1,4 +1,4 @@
-package ua.deti.pt.phoneapp.Auth
+package ua.deti.pt.phoneapp.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import ua.deti.pt.phoneapp.Auth.UserData
 
 @Composable
 fun ProfileScreen(

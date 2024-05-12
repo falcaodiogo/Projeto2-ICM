@@ -1,4 +1,4 @@
-package ua.deti.pt.phoneapp
+package ua.deti.pt.phoneapp.ui.activity
 
 import android.os.Bundle
 import android.widget.Toast
@@ -23,8 +23,8 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.launch
 import ua.deti.pt.phoneapp.Auth.GoogleAuthUiClient
-import ua.deti.pt.phoneapp.Auth.ProfileScreen
-import ua.deti.pt.phoneapp.Auth.SignInScreen
+import ua.deti.pt.phoneapp.ui.screens.ProfileScreen
+import ua.deti.pt.phoneapp.ui.screens.SignInScreen
 import ua.deti.pt.phoneapp.Auth.SignInViewModel
 import ua.deti.pt.phoneapp.ui.theme.PhoneAppTheme
 
@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
 
                             LaunchedEffect(key1 = Unit) {
                                 if(googleAuthUiClient.getSignedInUser() != null) {
-                                    navController.navigate("profile")
+                                    navController.navigate("home")
                                 }
                             }
 
@@ -84,7 +84,7 @@ class MainActivity : ComponentActivity() {
                                         Toast.LENGTH_LONG
                                     ).show()
 
-                                    navController.navigate("profile")
+                                    navController.navigate("home")
                                     viewModel.resetState()
                                 }
                             }
@@ -103,7 +103,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-                        composable("profile") {
+                        composable("home") {
                             ProfileScreen(
                                 userData = googleAuthUiClient.getSignedInUser(),
                                 onSignOut = {

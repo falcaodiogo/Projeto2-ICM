@@ -1,4 +1,4 @@
-package ua.deti.pt.phoneapp.Auth
+package ua.deti.pt.phoneapp.ui.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ua.deti.pt.phoneapp.Auth.SignInState
 import ua.deti.pt.phoneapp.R
 
 @Composable
