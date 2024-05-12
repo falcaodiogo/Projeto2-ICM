@@ -106,7 +106,21 @@ class MainActivity : ComponentActivity() {
                         composable("home") {
                             val navController2 = rememberNavController()
                             Surface(modifier = Modifier.fillMaxSize()) {
-                                MainScreen(navController = navController2)
+                                MainScreen(
+                                    navController = navController2,
+                                    googleAuthUiClient = googleAuthUiClient,
+                                    onSignOut = {
+                                        lifecycleScope.launch {
+                                            googleAuthUiClient.signOut()
+                                            Toast.makeText(
+                                                applicationContext,
+                                                "Signed out",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+
+                                            navController.popBackStack()
+                                        }
+                                    })
                             }
 
 //                            ProfileScreen(
