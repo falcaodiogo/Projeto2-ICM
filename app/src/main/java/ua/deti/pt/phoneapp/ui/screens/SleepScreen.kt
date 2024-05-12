@@ -15,17 +15,17 @@ import androidx.compose.ui.unit.sp
 import ua.deti.pt.phoneapp.R
 
 @Composable
-fun HomeScreen() {
+fun SleepScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(id = R.drawable.mainscreen_background),
+            painter = painterResource(id = R.drawable.sleep_background),
             contentDescription = "Background",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize()
         )
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
-                text = stringResource(id = R.string.home),
+                text = stringResource(id = R.string.sleep),
                 color = Color.White,
                 fontSize = 36.sp,
             )

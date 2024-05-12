@@ -9,14 +9,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-    val navItems = listOf(NavItem.Home, NavItem.Search, NavItem.List, NavItem.Profile)
+    val navItems = listOf(NavItem.Home, NavItem.Notifications, NavItem.Sleep, NavItem.Settings)
     var selectedItem by rememberSaveable { mutableStateOf(0) }
 
-    NavigationBar {
+    NavigationBar(containerColor = Color.Black) {
         navItems.forEachIndexed { index, item ->
             NavigationBarItem(
                 alwaysShowLabel = true,

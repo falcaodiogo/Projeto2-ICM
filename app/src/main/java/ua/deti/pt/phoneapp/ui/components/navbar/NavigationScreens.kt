@@ -6,9 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ua.deti.pt.phoneapp.Auth.GoogleAuthUiClient
 import ua.deti.pt.phoneapp.ui.screens.HomeScreen
-import ua.deti.pt.phoneapp.ui.screens.ListScreen
+import ua.deti.pt.phoneapp.ui.screens.NotificationsScreen
 import ua.deti.pt.phoneapp.ui.screens.ProfileScreen
-import ua.deti.pt.phoneapp.ui.screens.SearchScreen
+import ua.deti.pt.phoneapp.ui.screens.SleepScreen
 
 @Composable
 fun NavigationScreens(
@@ -18,9 +18,9 @@ fun NavigationScreens(
 ) {
     NavHost(navController, startDestination = NavItem.Home.path) {
         composable(NavItem.Home.path) { HomeScreen() }
-        composable(NavItem.Search.path) { SearchScreen() }
-        composable(NavItem.List.path) { ListScreen() }
-        composable(NavItem.Profile.path) {
+        composable(NavItem.Notifications.path) { NotificationsScreen() }
+        composable(NavItem.Sleep.path) { SleepScreen() }
+        composable(NavItem.Settings.path) {
             val userData = googleAuthUiClient.getSignedInUser()
             ProfileScreen(userData, onSignOut)
         }
