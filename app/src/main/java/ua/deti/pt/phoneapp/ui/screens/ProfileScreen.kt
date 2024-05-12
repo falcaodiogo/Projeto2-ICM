@@ -1,6 +1,12 @@
 package ua.deti.pt.phoneapp.ui.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -27,7 +33,7 @@ fun ProfileScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if(userData?.profilePictureUrl != null) {
+            if (userData?.profilePictureUrl != null) {
                 AsyncImage(
                     model = userData.profilePictureUrl,
                     contentDescription = "Profile picture",
@@ -38,7 +44,7 @@ fun ProfileScreen(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
-            if(userData?.username != null) {
+            if (userData?.username != null) {
                 Text(
                     text = userData.username,
                     textAlign = TextAlign.Center,

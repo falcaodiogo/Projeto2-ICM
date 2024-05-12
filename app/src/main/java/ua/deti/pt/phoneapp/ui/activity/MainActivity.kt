@@ -23,9 +23,9 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.launch
 import ua.deti.pt.phoneapp.Auth.GoogleAuthUiClient
-import ua.deti.pt.phoneapp.ui.screens.ProfileScreen
-import ua.deti.pt.phoneapp.ui.screens.SignInScreen
 import ua.deti.pt.phoneapp.Auth.SignInViewModel
+import ua.deti.pt.phoneapp.ui.screens.MainScreen
+import ua.deti.pt.phoneapp.ui.screens.SignInScreen
 import ua.deti.pt.phoneapp.ui.theme.PhoneAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
                             val state by viewModel.state.collectAsStateWithLifecycle()
 
                             LaunchedEffect(key1 = Unit) {
-                                if(googleAuthUiClient.getSignedInUser() != null) {
+                                if (googleAuthUiClient.getSignedInUser() != null) {
                                     navController.navigate("home")
                                 }
                             }
@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                             val launcher = rememberLauncherForActivityResult(
                                 contract = ActivityResultContracts.StartIntentSenderForResult(),
                                 onResult = { result ->
-                                    if(result.resultCode == RESULT_OK) {
+                                    if (result.resultCode == RESULT_OK) {
                                         lifecycleScope.launch {
                                             val signInResult = googleAuthUiClient.signInWithIntent(
                                                 intent = result.data ?: return@launch
@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
                             )
 
                             LaunchedEffect(key1 = state.isSignInSuccessful) {
-                                if(state.isSignInSuccessful) {
+                                if (state.isSignInSuccessful) {
                                     Toast.makeText(
                                         applicationContext,
                                         "Sign in successful",
@@ -104,21 +104,26 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("home") {
-                            ProfileScreen(
-                                userData = googleAuthUiClient.getSignedInUser(),
-                                onSignOut = {
-                                    lifecycleScope.launch {
-                                        googleAuthUiClient.signOut()
-                                        Toast.makeText(
-                                            applicationContext,
-                                            "Signed out",
-                                            Toast.LENGTH_LONG
-                                        ).show()
+                            val navController2 = rememberNavController()
+                            Surface(modifier = Modifier.fillMaxSize()) {
+                                MainScreen(navController = navController2)
+                            }
 
-                                        navController.popBackStack()
-                                    }
-                                }
-                            )
+//                            ProfileScreen(
+//                                userData = googleAuthUiClient.getSignedInUser(),
+//                                onSignOut = {
+//                                    lifecycleScope.launch {
+//                                        googleAuthUiClient.signOut()
+//                                        Toast.makeText(
+//                                            applicationContext,
+//                                            "Signed out",
+//                                            Toast.LENGTH_LONG
+//                                        ).show()
+//
+//                                        navController.popBackStack()
+//                                    }
+//                                }
+//                            )
                         }
                     }
                 }
