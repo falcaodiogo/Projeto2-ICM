@@ -125,22 +125,6 @@ class MainActivity : ComponentActivity() {
                                         }
                                     })
                             }
-
-//                            ProfileScreen(
-//                                userData = googleAuthUiClient.getSignedInUser(),
-//                                onSignOut = {
-//                                    lifecycleScope.launch {
-//                                        googleAuthUiClient.signOut()
-//                                        Toast.makeText(
-//                                            applicationContext,
-//                                            "Signed out",
-//                                            Toast.LENGTH_LONG
-//                                        ).show()
-//
-//                                        navController.popBackStack()
-//                                    }
-//                                }
-//                            )
                         }
                     }
                 }
