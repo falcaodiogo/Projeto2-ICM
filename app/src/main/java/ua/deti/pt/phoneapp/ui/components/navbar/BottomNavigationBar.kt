@@ -3,6 +3,7 @@ package ua.deti.pt.phoneapp.ui.components.navbar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,6 +21,10 @@ fun BottomNavigationBar(navController: NavHostController) {
     NavigationBar(containerColor = Color.Black) {
         navItems.forEachIndexed { index, item ->
             NavigationBarItem(
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = Color.LightGray,
+                    selectedIconColor = Color.Black
+                ),
                 alwaysShowLabel = true,
                 icon = { Icon(item.icon, contentDescription = item.title) },
                 label = { Text(item.title) },

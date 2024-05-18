@@ -13,6 +13,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import ua.deti.pt.phoneapp.R
+import ua.deti.pt.phoneapp.ui.components.map.MapScreen
+
 
 @Composable
 fun HomeScreen() {
@@ -29,6 +31,9 @@ fun HomeScreen() {
                 color = Color.White,
                 fontSize = 36.sp,
             )
+        }
+        Box(modifier = Modifier.fillMaxSize()) {
+            MapScreen()
         }
     }
 }
