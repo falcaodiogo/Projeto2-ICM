@@ -1,20 +1,22 @@
 package ua.deti.pt.phoneapp.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -24,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import ua.deti.pt.phoneapp.Auth.UserData
 import ua.deti.pt.phoneapp.R
+import ua.deti.pt.phoneapp.ui.components.segments.Segments
 
 @Composable
 fun ProfileScreen(
@@ -39,8 +42,7 @@ fun ProfileScreen(
         )
         Box {
             Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize().padding(top = 88.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 if (userData?.profilePictureUrl != null) {
@@ -48,7 +50,7 @@ fun ProfileScreen(
                         model = userData.profilePictureUrl,
                         contentDescription = "Profile picture",
                         modifier = Modifier
-                            .size(150.dp)
+                            .size(100.dp)
                             .clip(CircleShape),
                         contentScale = ContentScale.Crop
                     )
@@ -58,13 +60,25 @@ fun ProfileScreen(
                     Text(
                         text = userData.username,
                         textAlign = TextAlign.Center,
-                        fontSize = 36.sp,
+                        fontSize = 24.sp,
                         fontWeight = FontWeight.SemiBold
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-                Button(onClick = onSignOut) {
-                    Text(text = "Sign out")
+                Button(onClick = onSignOut, colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent
+                )) {
+                    Segments(title = "Goals", description = "", color = Color(0xff5EBFBF))
+                }
+                Button(onClick = onSignOut, colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent
+                )) {
+                    Segments(title = "Logout", description = "", color = Color(0xff5EBFBF))
+                }
+                Button(onClick = onSignOut, colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent
+                )) {
+                    Segments(title = "Others", description = "", color = Color(0xff5EBFBF))
                 }
             }
         }

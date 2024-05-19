@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Segments() {
+fun Segments(title: String, description: String, color: Color) {
     Column() {
         Box(
             modifier = Modifier
@@ -33,12 +33,18 @@ fun Segments() {
         ) {
             Row(modifier = Modifier.align(Alignment.CenterStart).padding(start = 16.dp).fillMaxWidth()) {
                 Box(
-                    modifier = Modifier.size(34.dp).clip(CircleShape).background(Color(0xFF9fae41)).align(Alignment.CenterVertically)
+                    modifier = Modifier.size(34.dp).clip(CircleShape).background(color).align(Alignment.CenterVertically)
                 )
-                Column(modifier = Modifier.align(Alignment.CenterVertically).padding(start = 14.dp).fillMaxHeight(), verticalArrangement = Arrangement.Center) {
-                    Text(text = "You walked more than 2km today!", color = Color.Black)
-                    Spacer(modifier = Modifier.size(8.dp))
-                    Text(text = "Click here to see more", color = Color(0xFF4A4739))
+                if (description.isNotEmpty()) {
+                    Column(modifier = Modifier.align(Alignment.CenterVertically).padding(start = 14.dp).fillMaxHeight(), verticalArrangement = Arrangement.Center) {
+                        Text(text = title.toString(), color = Color.Black)
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Text(text = description.toString(), color = Color(0xFF4A4739))
+                    }
+                } else {
+                    Column(modifier = Modifier.align(Alignment.CenterVertically).padding(start = 14.dp).fillMaxHeight(), verticalArrangement = Arrangement.Center) {
+                        Text(text = title.toString(), color = Color.Black)
+                    }
                 }
             }
         }

@@ -55,7 +55,11 @@ fun NotificationsScreen() {
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 for (i in 1..segmentsCount) {
-                    Segments()
+                    Segments(
+                        title = "Segment $i",
+                        description = "Description $i",
+                        color = Color(0xFF9fae41)
+                    )
                     if (i < segmentsCount) {
                         Spacer(modifier = Modifier.height(4.dp))
                     }
