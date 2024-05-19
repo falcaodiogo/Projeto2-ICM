@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,14 +61,14 @@ fun NotificationsScreen() {
                     }
                 }
                 Spacer(modifier = Modifier.size(64.dp))
-                Box(modifier = Modifier.fillMaxWidth().height(140.dp).clip(shape = RoundedCornerShape(16.dp))) {
+                Box(modifier = Modifier.fillMaxWidth().height(140.dp).clip(shape = RoundedCornerShape(16.dp)), contentAlignment = Alignment.Center) {
                     Image(
                         painter = painterResource(id = R.drawable.plannedcard),
                         contentDescription = "Background",
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier.matchParentSize()
                     )
-                    Text(text = "Planned\nExercises", fontSize = 36.sp, textAlign = TextAlign.Center)
+                    Text(text = "Planned\nExercises", fontSize = 36.sp, textAlign = TextAlign.Center, lineHeight = 36.sp, fontWeight = FontWeight.ExtraBold)
                 }
             }
         }

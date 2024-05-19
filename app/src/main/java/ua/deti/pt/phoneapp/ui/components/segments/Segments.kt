@@ -27,7 +27,7 @@ fun Segments() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(90.dp)
+                .height(78.dp)
                 .clip(shape = RoundedCornerShape(16.dp))
                 .background(Color(0xFFe8e4cc))
         ) {

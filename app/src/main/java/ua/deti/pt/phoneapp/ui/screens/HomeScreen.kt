@@ -1,24 +1,32 @@
 package ua.deti.pt.phoneapp.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ua.deti.pt.phoneapp.R
+import ua.deti.pt.phoneapp.ui.components.circularbar.CircularProgressBar
+import ua.deti.pt.phoneapp.ui.components.circularbar.progressFlow
 import ua.deti.pt.phoneapp.ui.components.map.MapScreen
 
 
@@ -31,13 +39,37 @@ fun HomeScreen() {
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize()
         )
-        Column(modifier = Modifier.padding(24.dp).padding(top = 124.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = stringResource(id = R.string.home),
-                color = Color.White,
-                fontSize = 36.sp,
-            )
-            Box(modifier = Modifier.height(564.dp).padding(top = 100.dp).clip(shape = RoundedCornerShape(16.dp))) {
+        Column(modifier = Modifier.padding(24.dp).padding(top = 70.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+                Box (
+                    contentAlignment = Alignment.Center,
+                ) {
+                    val progressFlow = remember { progressFlow(delayTime = 10L) }
+                    val progressState = progressFlow.collectAsState(initial = 0f)
+                    CircularProgressBar(
+                        progress = 0.85f,
+                        startAngle = 180f,
+                        size = 160.dp,
+                        strokeWidth = 24.dp,
+                        progressArcColor1 = Color(0xFFdcfb78),
+                        backgroundArcColor = Color(0xFFe54f7f),
+                        animationOn = true
+                    )
+                }
+                Column {
+                    Box {
+                         Text(text = "1,073", fontSize = 40.sp)
+                         Text(text = "Cal", fontSize = 20.sp, modifier = Modifier.padding(top = 48.dp))
+                    }
+                    Spacer(modifier = Modifier.size(8.dp))
+                    Box {
+                        Text(text = "3.2", fontSize = 40.sp)
+                        Text(text = "km", fontSize = 20.sp, modifier = Modifier.padding(top = 48.dp))
+                    }
+                }
+
+            }
+            Box(modifier = Modifier.height(524.dp).padding(top = 60.dp).clip(shape = RoundedCornerShape(16.dp))) {
                 MapScreen()
             }
         }
