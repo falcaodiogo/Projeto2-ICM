@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -40,47 +38,57 @@ fun ProfileScreen(
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize()
         )
-        Box {
-            Column(
-                modifier = Modifier.fillMaxSize().padding(top = 88.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                if (userData?.profilePictureUrl != null) {
-                    AsyncImage(
-                        model = userData.profilePictureUrl,
-                        contentDescription = "Profile picture",
-                        modifier = Modifier
-                            .size(100.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-                if (userData?.username != null) {
-                    Text(
-                        text = userData.username,
-                        textAlign = TextAlign.Center,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-                Button(onClick = onSignOut, colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent
-                )) {
-                    Segments(title = "Goals", description = "", color = Color(0xff5EBFBF))
-                }
-                Button(onClick = onSignOut, colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent
-                )) {
-                    Segments(title = "Logout", description = "", color = Color(0xff5EBFBF))
-                }
-                Button(onClick = onSignOut, colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent
-                )) {
-                    Segments(title = "Others", description = "", color = Color(0xff5EBFBF))
-                }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 88.dp)
+                .padding(horizontal = 36.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (userData?.profilePictureUrl != null) {
+                AsyncImage(
+                    model = userData.profilePictureUrl,
+                    contentDescription = "Profile picture",
+                    modifier = Modifier
+                        .size(100.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.height(16.dp))
             }
+            if (userData?.username != null) {
+                Text(
+                    text = userData.username,
+                    textAlign = TextAlign.Center,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            Spacer(modifier = Modifier.size(16.dp))
+            Segments(
+                onClick = {},
+                title = "Goals",
+                description = "",
+                color = Color(0xff5EBFBF),
+                background = Color(0xffe0ecec)
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            Segments(
+                onClick = onSignOut,
+                title = "Logout",
+                description = "",
+                color = Color(0xff5EBFBF),
+                background = Color(0xffe0ecec)
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            Segments(
+                onClick = {},
+                title = "Others",
+                description = "",
+                color = Color(0xff5EBFBF),
+                background = Color(0xffe0ecec)
+            )
         }
     }
 
