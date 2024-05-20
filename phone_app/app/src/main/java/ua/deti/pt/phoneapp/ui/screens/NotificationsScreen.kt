@@ -1,6 +1,7 @@
 package ua.deti.pt.phoneapp.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -90,19 +90,20 @@ fun NotificationsScreen(navController: NavHostController) {
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier
                             .matchParentSize()
+                            .clickable {
+                                navController.navigate("planned_exercises")
+                            }
                     )
                     Text(
                         text = "Planned\nExercises",
                         fontSize = 36.sp,
                         textAlign = TextAlign.Center,
                         lineHeight = 36.sp,
-                        fontWeight = FontWeight.ExtraBold
+                        fontWeight = FontWeight.ExtraBold,
+                        modifier = Modifier.clickable {
+                            navController.navigate("planned_exercises")
+                        }
                     )
-                    Button(onClick = {
-                        navController.navigate("planned_exercises")
-                    }, modifier = Modifier.align(Alignment.BottomCenter)) {
-                        Text(text = "View")
-                    }
                 }
             }
         }
