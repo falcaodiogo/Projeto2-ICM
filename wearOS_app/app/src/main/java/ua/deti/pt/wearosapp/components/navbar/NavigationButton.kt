@@ -1,10 +1,11 @@
 package ua.deti.pt.wearosapp.components.navbar
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.wear.compose.material.Button
+import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.Icon
 import androidx.wear.compose.material.Text
 
@@ -14,17 +15,16 @@ fun NavigationButton(
     navController: NavController,
     item: Item
 ) {
-    Button(onClick = {
-        navController.navigate(item.path) {
-            popUpTo(navController.graph.startDestinationId) { saveState = true }
-            launchSingleTop = true
-            restoreState = true
-        }
-    }
-    ) {
-        Row (horizontalArrangement = Arrangement.SpaceBetween) {
-            Icon(item.icon, contentDescription = item.title)
-            Text(text = item.title)
-        }
-    }
+    Chip(
+        modifier = Modifier.width(156.dp),
+        onClick = {
+            navController.navigate(item.path) {
+                popUpTo(navController.graph.startDestinationId) { saveState = true }
+                launchSingleTop = true
+                restoreState = true
+            }
+        },
+        label = { Text(text = item.title) },
+        icon = { Icon(item.icon, contentDescription = item.title) },
+    )
 }

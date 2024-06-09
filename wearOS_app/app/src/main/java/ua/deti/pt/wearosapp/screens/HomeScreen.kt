@@ -16,13 +16,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import androidx.wear.compose.material.Text
 import ua.deti.pt.wearosapp.R
 import ua.deti.pt.wearosapp.components.CircularProgressBar
+import ua.deti.pt.wearosapp.components.navbar.BottomNavigationBar
 import ua.deti.pt.wearosapp.components.progressFlow
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavHostController) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.violet_background),
@@ -62,6 +64,10 @@ fun HomeScreen() {
             item {
                 Text(text = "1,073 Cal", fontSize = 16.sp)
                 Text(text = "3.2 km", fontSize = 16.sp)
+            }
+
+            item {
+                BottomNavigationBar(navController = navController)
             }
         }
     }
