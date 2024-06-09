@@ -16,27 +16,14 @@ import androidx.wear.compose.navigation.currentBackStackEntryAsState
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val navItems = listOf(NavItem.Home, NavItem.Notifications, NavItem.Settings)
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
 
-    BottomNavigation(contentColor = Color.Black) {
         LazyColumn(modifier = Modifier.padding(vertical = 5.dp), verticalArrangement = Arrangement.SpaceEvenly) {
             item {
                 navItems.forEachIndexed{ _, item ->
-                    BottomNavigationItem(
-                        selected = currentRoute == item.path,
-                        onClick = { navController.navigate(item.path) {
-                            popUpTo(navController.graph.startDestinationId) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
-                        } },
-                        icon = { item.icon },
-                        label = { item.title }
-                    )
+                    NavigationButton(selected = false, navController = navController, item = item)
                 }
             }
         }
     }
 
 
-}

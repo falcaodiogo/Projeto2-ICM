@@ -1,5 +1,6 @@
 package ua.deti.pt.wearosapp.screens
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -12,7 +13,8 @@ import ua.deti.pt.wearosapp.components.navbar.NavigationScreen
 
 @Composable
 fun MainScreen(navController: NavHostController) {
-    Scaffold(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize()) {
         NavigationScreen(navController = navController)
+        BottomNavigationBar(navController = navController)
     }
 }
