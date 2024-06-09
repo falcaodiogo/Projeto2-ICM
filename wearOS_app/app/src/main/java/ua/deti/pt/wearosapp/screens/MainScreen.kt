@@ -14,5 +14,6 @@ import ua.deti.pt.wearosapp.components.navbar.NavigationScreen
 fun MainScreen(navController: NavHostController) {
     Scaffold(modifier = Modifier.fillMaxSize()) {
         NavigationScreen(navController = navController)
+        // BottomNavigationBar(navController = navController)
     }
 }
