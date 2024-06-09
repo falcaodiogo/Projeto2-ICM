@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -77,6 +78,7 @@ fun CircularProgressBar(
                 startAngle = 0f,
                 sweepAngle = animatedProgress * 360,
                 useCenter = false,
+                topLeft = Offset(strokeWidthPx / 2, strokeWidthPx / 2),
                 size = Size(arcSize, arcSize),
                 style = Stroke(width = strokeWidthPx, cap = StrokeCap.Round)
             )

@@ -3,7 +3,6 @@ package ua.deti.pt.wearosapp.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,20 +24,24 @@ import ua.deti.pt.wearosapp.components.progressFlow
 @Composable
 fun HomeScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
-        Image (
+        Image(
             painter = painterResource(id = R.drawable.violet_background),
             contentDescription = "Home Screen Background",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize()
         )
-        LazyColumn (
-            modifier = Modifier.fillMaxSize().padding(vertical = 20.dp),
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
 
             item {
-                Text(text = "Health", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+                Text(
+                    text = "Health",
+                    modifier = Modifier.padding(top = 8.dp),
+                    fontWeight = FontWeight.ExtraBold, fontSize = 18.sp
+                )
                 Box(modifier = Modifier.padding(vertical = 10.dp))
             }
 
@@ -60,7 +63,6 @@ fun HomeScreen() {
                 Text(text = "1,073 Cal", fontSize = 16.sp)
                 Text(text = "3.2 km", fontSize = 16.sp)
             }
-
         }
     }
 }
