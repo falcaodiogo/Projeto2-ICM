@@ -1,5 +1,8 @@
 package ua.deti.pt.phoneapp.ui.activity
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -15,6 +18,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.health.connect.client.HealthConnectClient
+import androidx.health.connect.client.PermissionController
+import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.records.StepsRecord
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -38,6 +46,40 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    fun openHealthConnect(context: Context) {
+        val availabilityStatus = HealthConnectClient.getSdkStatus(context)
+        if (availabilityStatus == HealthConnectClient.SDK_UNAVAILABLE)
+            return // early return as there is no viable integration
+        val healthConnectClient = HealthConnectClient.getOrCreate(context)
+
+        val PERMISSIONS =
+            setOf(
+                HealthPermission.getReadPermission(HeartRateRecord::class),
+                HealthPermission.getWritePermission(HeartRateRecord::class),
+                HealthPermission.getReadPermission(StepsRecord::class),
+                HealthPermission.getWritePermission(StepsRecord::class)
+            )
+
+        val requestPermissionActivityContract = PermissionController.createRequestPermissionResultContract()
+
+        val requestPermissions = registerForActivityResult(requestPermissionActivityContract) { granted ->
+            if (granted.containsAll(PERMISSIONS)) {
+                // Permissions successfully granted
+            } else {
+                // Lack of required permissions
+            }
+        }
+
+        suspend fun checkPermissionsAndRun(healthConnectClient: HealthConnectClient) {
+            val granted = healthConnectClient.permissionController.getGrantedPermissions()
+            if (granted.containsAll(PERMISSIONS)) {
+                // Permissions already granted; proceed with inserting or reading data
+            } else {
+                requestPermissions.launch(PERMISSIONS)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars =
             true
@@ -47,6 +89,7 @@ class MainActivity : ComponentActivity() {
                 android.graphics.Color.TRANSPARENT
             ),
         )
+
         super.onCreate(savedInstanceState)
         setContent {
             PhoneAppTheme {
