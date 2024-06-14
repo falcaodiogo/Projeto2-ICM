@@ -5,4 +5,9 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">From the Square world,\nHello, %1$s!</string>
+    <string name="no_hr_reading">--</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="icon">Icon</string>
+    <string name="not_available">Not available on this device</string>
 </resources>

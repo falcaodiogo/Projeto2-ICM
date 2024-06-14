@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "ua.deti.pt.wearosapp"
-        minSdk = 29
+        minSdk = 30
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -22,7 +22,6 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
