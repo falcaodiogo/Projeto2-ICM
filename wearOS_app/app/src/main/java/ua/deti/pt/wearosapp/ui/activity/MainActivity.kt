@@ -25,12 +25,10 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
-import dagger.hilt.android.AndroidEntryPoint
 import ua.deti.pt.wearosapp.R
 import ua.deti.pt.wearosapp.screens.MainScreen
 import ua.deti.pt.wearosapp.theme.WearOSAppTheme
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
