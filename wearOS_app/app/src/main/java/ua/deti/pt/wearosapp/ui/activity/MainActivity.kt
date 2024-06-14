@@ -9,7 +9,6 @@ package ua.deti.pt.wearosapp.activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,21 +20,26 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
-import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ua.deti.pt.wearosapp.R
-import ua.deti.pt.wearosapp.screens.HomeScreen
 import ua.deti.pt.wearosapp.screens.MainScreen
 import ua.deti.pt.wearosapp.theme.WearOSAppTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
 
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = true
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars =
+            true
 
         super.onCreate(savedInstanceState)
 
