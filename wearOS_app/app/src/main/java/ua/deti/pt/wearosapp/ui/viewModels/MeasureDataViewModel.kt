@@ -1,12 +1,12 @@
 package ua.deti.pt.wearosapp.ui.viewModels
 
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.health.services.client.data.DataTypeAvailability
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.launch
@@ -19,15 +19,16 @@ import ua.deti.pt.wearosapp.service.MeasureMessage
  *
  * @property healthServicesRepository The repository used to interact with the health services API.
  */
+@OptIn(ExperimentalPermissionsApi::class)
 class MeasureDataViewModel(
     private val healthServicesRepository: HealthServicesRepository
 ) : ViewModel() {
 
-    private val enabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    private val heartRate: MutableState<Double> = mutableDoubleStateOf(0.0)
-    private val availability: MutableState<DataTypeAvailability> =
-        mutableStateOf(DataTypeAvailability.UNKNOWN)
-    private val uiState: MutableState<UiState> = mutableStateOf(UiState.Startup)
+    val enabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val heartRate: MutableStateFlow<Double> = MutableStateFlow(0.0)
+    val availability: MutableStateFlow<DataTypeAvailability> =
+        MutableStateFlow(DataTypeAvailability.UNKNOWN)
+    val uiState: MutableState<UiState> = mutableStateOf(UiState.Startup)
 
     /**
      * Initialization block that sets the initial UI state based on whether heart rate capability is supported.
