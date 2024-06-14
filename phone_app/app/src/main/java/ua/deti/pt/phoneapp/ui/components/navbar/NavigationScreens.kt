@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ua.deti.pt.phoneapp.Auth.GoogleAuthUiClient
+import ua.deti.pt.phoneapp.ui.screens.HealthConnectScreen
 import ua.deti.pt.phoneapp.ui.screens.HomeScreen
 import ua.deti.pt.phoneapp.ui.screens.NotificationsScreen
 import ua.deti.pt.phoneapp.ui.screens.PlannedExercises
@@ -25,6 +26,6 @@ fun NavigationScreens(
             val userData = googleAuthUiClient.getSignedInUser()
             ProfileScreen(userData, onSignOut)
         }
-        composable("planned_exercises") { PlannedExercises() }
+        composable("planned_exercises") { HealthConnectScreen() }
     }
 }
