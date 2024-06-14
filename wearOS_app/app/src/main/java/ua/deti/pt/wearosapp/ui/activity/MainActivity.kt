@@ -4,7 +4,7 @@
  * changes to the libraries and their usages.
  */
 
-package ua.deti.pt.wearosapp.activity
+package ua.deti.pt.wearosapp.ui.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -32,8 +32,6 @@ import ua.deti.pt.wearosapp.theme.WearOSAppTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()

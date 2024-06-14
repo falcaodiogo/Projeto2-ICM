@@ -1,9 +1,11 @@
 package ua.deti.pt.wearosapp
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import ua.deti.pt.wearosapp.service.HealthServicesRepository
 
-@HiltAndroidApp
-class MainApplication : Application()
+const val TAG = "Measure Data Sample"
+const val PERMISSION = android.Manifest.permission.BODY_SENSORS
 
-const val TAG = "Measuring Data Sample"
+class MainApplication : Application() {
+    val healthServicesRepository by lazy { HealthServicesRepository(this) }
+}

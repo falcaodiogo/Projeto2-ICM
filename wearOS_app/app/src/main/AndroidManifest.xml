@@ -3,14 +3,16 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <!-- For receiving heart rate data. -->
+    <!-- Required for Heart Rate sensor -->
     <uses-permission android:name="android.permission.BODY_SENSORS" />
 
     <queries>
         <package android:name="com.google.android.wearable.healthservices" />
     </queries>
 
-    <uses-feature android:name="android.hardware.type.watch" />
+    <uses-feature
+        android:name="android.hardware.type.watch"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -31,7 +33,7 @@
             android:value="true" />
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true"
             android:taskAffinity=""
             android:theme="@style/MainActivityTheme.Starting">

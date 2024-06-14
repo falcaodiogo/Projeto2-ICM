@@ -1,9 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -68,23 +65,24 @@ dependencies {
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 
-    // Hilt dependency injection
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
-    implementation("androidx.hilt:hilt-work:1.2.0")
-    kapt("androidx.hilt:hilt-compiler:1.2.0")
+    // General compose dependencies
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling.preview)
 
-    // Wear
-    implementation("androidx.wear:wear:1.3.0")
+    implementation(libs.wear.compose.material)
+    implementation(libs.wear.compose.foundation)
+
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.compose.material.icons.extended)
 
     // Health Services
-    implementation("androidx.health:health-services-client:1.0.0-rc02")
+    implementation(libs.androidx.health.services)
 
-    // Bridge between Futures and Coroutines
-    implementation("com.google.guava:guava:33.2.1-android")
-    implementation("androidx.concurrent:concurrent-futures-ktx:1.2.0")
+    // Bridge between Futures and coroutines
+    implementation(libs.guava)
+    implementation(libs.concurrent.futures)
 
-    // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.2")
-    implementation("androidx.lifecycle:lifecycle-service:2.8.2")
+    // Permissions
+    implementation(libs.accompanist.permissions)
 }
