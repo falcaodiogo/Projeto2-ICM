@@ -1,5 +1,6 @@
 [versions]
 agp = "8.3.2"
+connectClient = "1.1.0-alpha07"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
@@ -16,6 +17,7 @@ appcompat = "1.6.1"
 playServicesMaps = "18.2.0"
 
 [libraries]
+androidx-connect-client = { module = "androidx.health.connect:connect-client", version.ref = "connectClient" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

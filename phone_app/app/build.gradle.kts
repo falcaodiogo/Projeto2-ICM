@@ -52,6 +52,8 @@ android {
 }
 
 dependencies {
+    // health connect
+    implementation(libs.androidx.connect.client)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -79,7 +81,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.1.1")
     implementation("androidx.compose.material:material-icons-extended:1.4.3")
     implementation("com.google.maps.android:maps-compose:4.3.3")
-    implementation("androidx.health.connect:connect-client:1.1.0-alpha02")
 }
 
 secrets {
