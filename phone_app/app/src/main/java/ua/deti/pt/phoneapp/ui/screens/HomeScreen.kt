@@ -60,7 +60,7 @@ fun HomeScreen() {
                     val progressFlow = remember { progressFlow(delayTime = 10L) }
                     val progressState = progressFlow.collectAsState(initial = 0f)
                     // MUDAR EVENTUALMENTE PARA O QUE O USER QUISER
-                    val defined_user_calories_goal = 3f
+                    val defined_user_calories_goal = 100f
                     CircularProgressBar(
                         progress = calories / defined_user_calories_goal,
                         startAngle = 180f,
@@ -73,7 +73,7 @@ fun HomeScreen() {
                 }
                 Column {
                     Box {
-                        Text(text = "$calories", fontSize = 40.sp)
+                        Text(text = String.format("%d", steps), fontSize = 40.sp)
                         Text(text = "Cal", fontSize = 20.sp, modifier = Modifier.padding(top = 48.dp))
                     }
                     Spacer(modifier = Modifier.size(8.dp))
