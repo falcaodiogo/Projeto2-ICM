@@ -15,7 +15,7 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-    val navItems = listOf(NavItem.Home, NavItem.Notifications, NavItem.Sleep, NavItem.Settings)
+    val navItems = listOf(NavItem.Home, NavItem.Exercises, NavItem.Notifications, NavItem.Sleep, NavItem.Settings)
     var selectedItem by rememberSaveable { mutableStateOf(0) }
 
     NavigationBar(containerColor = Color.Black) {

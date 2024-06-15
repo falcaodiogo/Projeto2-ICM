@@ -3,7 +3,11 @@ package ua.deti.pt.phoneapp.ui.components.map
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -25,12 +29,36 @@ fun MapScreen() {
     val locationMap2 = LatLng(40.639322, -8.651495)
     val locationMap3 = LatLng(40.636694, -8.653297)
     val locationMap4 = LatLng(40.633362, -8.658463)
+
+    val openAlertDialog = remember { mutableStateOf(false) }
+
+    when {
+        openAlertDialog.value -> {
+            AlertDialogMap(
+                onDismissRequest = { openAlertDialog.value = false },
+                onConfirmation = {
+                    openAlertDialog.value = false
+                    println("Confirmation registered")
+                },
+                dialogTitle = "Não sei como meter nos spots",
+                dialogText = "This is an example of an alert dialog with buttons.",
+                icon = Icons.Default.Info
+            )
+        }
+    }
+
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
-        cameraPositionState = cameraPositionState
+        cameraPositionState = cameraPositionState,
+        onMapClick = {
+            openAlertDialog.value = true
+        }
     ) {
         MarkerComposable(
             state = MarkerState(position = locationMap),
+            onInfoWindowClick = {
+                openAlertDialog.value = true
+            }
         ) {
             Image(
                 painter = painterResource(id = R.drawable.locationpoint),
