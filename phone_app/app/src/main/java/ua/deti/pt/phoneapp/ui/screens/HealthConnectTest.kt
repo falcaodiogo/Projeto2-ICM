@@ -14,6 +14,7 @@ import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import java.time.Instant
 import kotlinx.coroutines.launch
+import java.time.temporal.ChronoUnit
 
 val PERMISSIONS = setOf(
     HealthPermission.getReadPermission(HeartRateRecord::class),
@@ -23,9 +24,12 @@ val PERMISSIONS = setOf(
 )
 
 @Composable
-fun HealthConnectScreen() {
+fun HealthConnectScreen(
+    onStepsAndCaloriesUpdated: (Int, Float) -> Unit
+) {
     val context = LocalContext.current
     var stepsCount by remember { mutableStateOf(0) }
+    var caloriesCount by remember { mutableStateOf(0f) }
     var healthConnectClient by remember { mutableStateOf<HealthConnectClient?>(null) }
     val coroutineScope = rememberCoroutineScope()
 
@@ -34,11 +38,13 @@ fun HealthConnectScreen() {
     ) { result: Set<String> ->
         if (result.containsAll(PERMISSIONS)) {
             coroutineScope.launch {
-                readStepsByTimeRange(
-                    healthConnectClient = healthConnectClient!!,
-                    startTime = Instant.now().minusSeconds(86400),
-                    endTime = Instant.now(),
-                    onStepsCountUpdated = { stepsCount = it.toInt() }
+                readStepsAndCalculateCalories(
+                    healthConnectClient!!,
+                    onStepsAndCaloriesUpdated = { steps, calories ->
+                        stepsCount = steps.toInt()
+                        caloriesCount = calories
+                        onStepsAndCaloriesUpdated(stepsCount, caloriesCount)
+                    }
                 )
             }
         } else {
@@ -55,12 +61,11 @@ fun HealthConnectScreen() {
             coroutineScope.launch {
                 // Check permissions and request if not granted
                 if (client.permissionController.getGrantedPermissions().containsAll(PERMISSIONS)) {
-                    readStepsByTimeRange(
-                        healthConnectClient = client,
-                        startTime = Instant.now().minusSeconds(86400),
-                        endTime = Instant.now(),
-                        onStepsCountUpdated = { stepsCount = it.toInt() }
-                    )
+                    readStepsAndCalculateCalories(client) { steps, calories ->
+                        stepsCount = steps.toInt()
+                        caloriesCount = calories
+                        onStepsAndCaloriesUpdated(stepsCount, caloriesCount)
+                    }
                 } else {
                     requestPermissionsLauncher.launch(PERMISSIONS)
                 }
@@ -69,11 +74,8 @@ fun HealthConnectScreen() {
             Toast.makeText(context, "Health Connect not available", Toast.LENGTH_SHORT).show()
         }
     }
-
-    Column {
-        Text("Steps count: $stepsCount")
-    }
 }
+
 
 object HealthConnectUtils {
     var healthConnectClient: HealthConnectClient? = null
@@ -104,26 +106,29 @@ object HealthConnectUtils {
     }
 }
 
-suspend fun readStepsByTimeRange(
+suspend fun readStepsAndCalculateCalories(
     healthConnectClient: HealthConnectClient,
-    startTime: Instant,
-    endTime: Instant,
-    onStepsCountUpdated: (Long) -> Unit
+    onStepsAndCaloriesUpdated: (Long, Float) -> Unit
 ) {
     try {
         val response = healthConnectClient.readRecords(
             ReadRecordsRequest(
                 StepsRecord::class,
-                timeRangeFilter = TimeRangeFilter.between(startTime, endTime)
+                timeRangeFilter = TimeRangeFilter.between(
+                    Instant.now().truncatedTo(ChronoUnit.DAYS),
+                    Instant.now()
+                )
             )
         )
+
         var totalSteps = 0L
+        var totalCalories = 0f
         for (stepRecord in response.records) {
             totalSteps += stepRecord.count
+            totalCalories += stepRecord.count * 0.05f
         }
-        // Update steps count
-        onStepsCountUpdated(totalSteps)
+        onStepsAndCaloriesUpdated(totalSteps, totalCalories)
     } catch (e: Exception) {
-        // Run error handling here
+        // Handle exception in the loooooooooong future
     }
 }
