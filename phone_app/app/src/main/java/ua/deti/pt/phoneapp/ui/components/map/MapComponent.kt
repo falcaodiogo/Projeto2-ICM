@@ -1,6 +1,8 @@
 package ua.deti.pt.phoneapp.ui.components.map
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -20,6 +22,19 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import ua.deti.pt.phoneapp.R
 
 @Composable
+fun ShimmerEffect(showShimmer: Boolean = true) {
+    if (showShimmer) {
+        val shimmerBrush = shimmerBrush()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(shimmerBrush)
+        )
+    }
+}
+
+
+@Composable
 fun MapScreen() {
     val aveiro = LatLng(40.638076, -8.653603)
     val cameraPositionState = rememberCameraPositionState {
@@ -31,67 +46,72 @@ fun MapScreen() {
     val locationMap4 = LatLng(40.633362, -8.658463)
 
     val openAlertDialog = remember { mutableStateOf(false) }
+    val showShimmer = remember { mutableStateOf(true) }
 
-    when {
-        openAlertDialog.value -> {
-            AlertDialogMap(
-                onDismissRequest = { openAlertDialog.value = false },
-                onConfirmation = {
-                    openAlertDialog.value = false
-                    println("Confirmation registered")
-                },
-                dialogTitle = "Não sei como meter nos spots",
-                dialogText = "This is an example of an alert dialog with buttons.",
-                icon = Icons.Default.Info
-            )
-        }
+    if (openAlertDialog.value) {
+        AlertDialogMap(
+            onDismissRequest = { openAlertDialog.value = false },
+            onConfirmation = {
+                openAlertDialog.value = false
+                println("Confirmation registered")
+            },
+            dialogTitle = "Não sei como meter nos spots",
+            dialogText = "This is an example of an alert dialog with buttons.",
+            icon = Icons.Default.Info
+        )
     }
 
-    GoogleMap(
-        modifier = Modifier.fillMaxSize(),
-        cameraPositionState = cameraPositionState,
-        onMapClick = {
-            openAlertDialog.value = true
-        }
-    ) {
-        MarkerComposable(
-            state = MarkerState(position = locationMap),
-            onInfoWindowClick = {
+    Box(modifier = Modifier.fillMaxSize()) {
+        GoogleMap(
+            modifier = Modifier.fillMaxSize(),
+            cameraPositionState = cameraPositionState,
+            onMapClick = {
                 openAlertDialog.value = true
+            },
+            onMapLoaded = { showShimmer.value = false },
+        ) {
+            MarkerComposable(
+                state = MarkerState(position = locationMap),
+                onInfoWindowClick = {
+                    openAlertDialog.value = true
+                }
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.locationpoint),
+                    contentDescription = "",
+                    modifier = Modifier.size(50.dp)
+                )
             }
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.locationpoint),
-                contentDescription = "",
-                modifier = Modifier.size(50.dp)
-            )
+            MarkerComposable(
+                state = MarkerState(position = locationMap2),
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.locationpoint),
+                    contentDescription = "",
+                    modifier = Modifier.size(50.dp)
+                )
+            }
+            MarkerComposable(
+                state = MarkerState(position = locationMap3),
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.locationpoint),
+                    contentDescription = "",
+                    modifier = Modifier.size(50.dp)
+                )
+            }
+            MarkerComposable(
+                state = MarkerState(position = locationMap4),
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.locationpoint),
+                    contentDescription = "",
+                    modifier = Modifier.size(50.dp)
+                )
+            }
         }
-        MarkerComposable(
-            state = MarkerState(position = locationMap2),
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.locationpoint),
-                contentDescription = "",
-                modifier = Modifier.size(50.dp)
-            )
-        }
-        MarkerComposable(
-            state = MarkerState(position = locationMap3),
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.locationpoint),
-                contentDescription = "",
-                modifier = Modifier.size(50.dp)
-            )
-        }
-        MarkerComposable(
-            state = MarkerState(position = locationMap4),
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.locationpoint),
-                contentDescription = "",
-                modifier = Modifier.size(50.dp)
-            )
+        if (showShimmer.value) {
+            ShimmerEffect(showShimmer = showShimmer.value)
         }
     }
 }
