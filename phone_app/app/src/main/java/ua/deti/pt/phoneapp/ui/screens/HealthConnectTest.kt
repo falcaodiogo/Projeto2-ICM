@@ -1,8 +1,8 @@
+package ua.deti.pt.phoneapp.ui.screens
+
 import android.content.Context
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.health.connect.client.HealthConnectClient
@@ -37,6 +37,7 @@ fun HealthConnectScreen(
         contract = PermissionController.createRequestPermissionResultContract()
     ) { result: Set<String> ->
         if (result.containsAll(PERMISSIONS)) {
+            println("Permissions granted")
             coroutineScope.launch {
                 readStepsAndCalculateCalories(
                     healthConnectClient!!,
@@ -115,7 +116,8 @@ suspend fun readStepsAndCalculateCalories(
             ReadRecordsRequest(
                 StepsRecord::class,
                 timeRangeFilter = TimeRangeFilter.between(
-                    Instant.now().truncatedTo(ChronoUnit.DAYS),
+                    // 24 hours
+                    Instant.now().minus(1, ChronoUnit.DAYS),
                     Instant.now()
                 )
             )
@@ -125,10 +127,11 @@ suspend fun readStepsAndCalculateCalories(
         var totalCalories = 0f
         for (stepRecord in response.records) {
             totalSteps += stepRecord.count
-            totalCalories += stepRecord.count * 0.05f
+            totalCalories += stepRecord.count * 0.06f
         }
         onStepsAndCaloriesUpdated(totalSteps, totalCalories)
     } catch (e: Exception) {
-        // Handle exception in the loooooooooong future
+        println("Error reading steps: $e")
+        e.printStackTrace()
     }
 }

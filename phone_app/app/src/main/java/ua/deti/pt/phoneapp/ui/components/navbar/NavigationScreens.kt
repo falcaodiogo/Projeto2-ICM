@@ -1,6 +1,5 @@
 package ua.deti.pt.phoneapp.ui.components.navbar
 
-import HealthConnectScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
