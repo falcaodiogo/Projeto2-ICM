@@ -2,6 +2,7 @@ package ua.deti.pt.phoneapp.ui.components.map
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -65,13 +66,27 @@ fun MapScreen() {
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState,
-            onMapClick = {
-                openAlertDialog.value = true
-            },
             onMapLoaded = { showShimmer.value = false },
         ) {
             MarkerComposable(
                 state = MarkerState(position = locationMap),
+                onInfoWindowClick = {
+                    openAlertDialog.value = true
+                },
+                onInfoWindowLongClick = {
+                    openAlertDialog.value = true
+                }
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.locationpoint),
+                    contentDescription = "",
+                    modifier = Modifier.size(50.dp).clickable {
+                        openAlertDialog.value = true
+                    }
+                )
+            }
+            MarkerComposable(
+                state = MarkerState(position = locationMap2),
                 onInfoWindowClick = {
                     openAlertDialog.value = true
                 }
@@ -79,34 +94,37 @@ fun MapScreen() {
                 Image(
                     painter = painterResource(id = R.drawable.locationpoint),
                     contentDescription = "",
-                    modifier = Modifier.size(50.dp)
-                )
-            }
-            MarkerComposable(
-                state = MarkerState(position = locationMap2),
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.locationpoint),
-                    contentDescription = "",
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier.size(50.dp).clickable {
+                        openAlertDialog.value = true
+                    }
                 )
             }
             MarkerComposable(
                 state = MarkerState(position = locationMap3),
+                onInfoWindowClick = {
+                    openAlertDialog.value = true
+                }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.locationpoint),
                     contentDescription = "",
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier.size(50.dp).clickable {
+                        openAlertDialog.value = true
+                    }
                 )
             }
             MarkerComposable(
                 state = MarkerState(position = locationMap4),
+                onInfoWindowClick = {
+                    openAlertDialog.value = true
+                }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.locationpoint),
                     contentDescription = "",
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier.size(50.dp).clickable {
+                        openAlertDialog.value = true
+                    }
                 )
             }
         }

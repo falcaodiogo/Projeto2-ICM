@@ -18,9 +18,7 @@ import java.time.temporal.ChronoUnit
 
 val PERMISSIONS = setOf(
     HealthPermission.getReadPermission(HeartRateRecord::class),
-    HealthPermission.getWritePermission(HeartRateRecord::class),
     HealthPermission.getReadPermission(StepsRecord::class),
-    HealthPermission.getWritePermission(StepsRecord::class)
 )
 
 @Composable
