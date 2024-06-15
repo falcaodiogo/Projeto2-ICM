@@ -1,7 +1,9 @@
 package ua.deti.pt.phoneapp.ui.components.sleepchart
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,15 +25,15 @@ import co.yml.charts.ui.linechart.model.ShadowUnderLine
 fun SingleLineChartWithGridLines(pointsData: List<Point>) {
     val popUpLabel: (Float, Float) -> String = { x, y -> "${y.toInt()} sleep at ${x.toInt()} "}
     val xAxisData = AxisData.Builder()
-        .axisStepSize(90.dp)
+        .axisStepSize(67.dp)
         .steps(pointsData.size - 1)
-        .labelData { i -> pointsData[i].x.toInt().toString() }
         .axisLineColor(Color.White)
         .axisLabelColor(Color.White)
         .build()
     val yAxisData = AxisData.Builder()
         .axisLineColor(Color.White)
         .axisLabelColor(Color.White)
+        .backgroundColor(Color.Black)
         .build()
     val data = LineChartData(
         linePlotData = LinePlotData(
@@ -40,7 +42,7 @@ fun SingleLineChartWithGridLines(pointsData: List<Point>) {
                     dataPoints = pointsData,
                     LineStyle(color = Color.White),
                     IntersectionPoint(color = Color.White),
-                    SelectionHighlightPoint(color = Color.White),
+                    SelectionHighlightPoint(),
                     ShadowUnderLine(),
                     SelectionHighlightPopUp(popUpLabel = popUpLabel)
                 )
@@ -54,8 +56,8 @@ fun SingleLineChartWithGridLines(pointsData: List<Point>) {
     LineChart(
         modifier = Modifier
             .fillMaxWidth()
-//            .padding(top = 20.dp)
-            .height(300.dp),
+            .height(300.dp)
+            .background(Color.Black),
         lineChartData = data
     )
 }

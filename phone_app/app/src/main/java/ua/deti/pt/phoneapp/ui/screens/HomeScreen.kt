@@ -51,6 +51,7 @@ fun HomeScreen() {
             HealthConnectScreen(onStepsAndCaloriesUpdated = { updatedSteps, updatedCalories ->
                 steps = updatedSteps
                 calories = updatedCalories
+            }, onSleepDataUpdated = {
             })
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
                 Box (

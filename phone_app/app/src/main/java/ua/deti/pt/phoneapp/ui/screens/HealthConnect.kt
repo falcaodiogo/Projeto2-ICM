@@ -9,6 +9,7 @@ import androidx.health.connect.client.HealthConnectClient
 import androidx.health.connect.client.PermissionController
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.HeartRateRecord
+import androidx.health.connect.client.records.SleepSessionRecord
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
@@ -19,11 +20,14 @@ import java.time.temporal.ChronoUnit
 val PERMISSIONS = setOf(
     HealthPermission.getReadPermission(HeartRateRecord::class),
     HealthPermission.getReadPermission(StepsRecord::class),
+    HealthPermission.getReadPermission(SleepSessionRecord::class),
 )
+
 
 @Composable
 fun HealthConnectScreen(
-    onStepsAndCaloriesUpdated: (Int, Float) -> Unit
+    onStepsAndCaloriesUpdated: (Int, Float) -> Unit,
+    onSleepDataUpdated: () -> Unit
 ) {
     val context = LocalContext.current
     var stepsCount by remember { mutableStateOf(0) }
@@ -45,6 +49,9 @@ fun HealthConnectScreen(
                         onStepsAndCaloriesUpdated(stepsCount, caloriesCount)
                     }
                 )
+                readSleepData(healthConnectClient!!) {
+                    onSleepDataUpdated()
+                }
             }
         } else {
             Toast.makeText(context, "Permissions not granted", Toast.LENGTH_SHORT).show()
@@ -64,6 +71,9 @@ fun HealthConnectScreen(
                         stepsCount = steps.toInt()
                         caloriesCount = calories
                         onStepsAndCaloriesUpdated(stepsCount, caloriesCount)
+                    }
+                    readSleepData(client) {
+
                     }
                 } else {
                     requestPermissionsLauncher.launch(PERMISSIONS)
@@ -130,6 +140,36 @@ suspend fun readStepsAndCalculateCalories(
         onStepsAndCaloriesUpdated(totalSteps, totalCalories)
     } catch (e: Exception) {
         println("Error reading steps: $e")
+        e.printStackTrace()
+    }
+}
+
+suspend fun readSleepData(
+    healthConnectClient: HealthConnectClient,
+    onSleepDataUpdated: () -> Unit
+) {
+    try {
+        val response = healthConnectClient.readRecords(
+            ReadRecordsRequest(
+                SleepSessionRecord::class,
+                timeRangeFilter = TimeRangeFilter.between(
+                    // 24 hours
+                    Instant.now().minus(1, ChronoUnit.DAYS),
+                    Instant.now()
+                )
+            )
+        )
+
+        val sleepSessions = mutableListOf<SleepSessionRecord>()
+        // not receiving any data right now
+        for (sleepRecord in response.records) {
+            sleepSessions.add(sleepRecord)
+            println("Sleep: $sleepRecord")
+        }
+
+        onSleepDataUpdated.invoke()
+    } catch (e: Exception) {
+        println("Error reading sleep data: $e")
         e.printStackTrace()
     }
 }
