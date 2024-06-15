@@ -35,7 +35,7 @@ fun BottomNavigationBar(navController: NavHostController) {
                 label = { Text(item.title) },
                 selected = selectedItem == index,
                 onClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     selectedItem = index
                     navController.navigate(item.path) {
                         navController.graph.startDestinationRoute?.let { route ->
