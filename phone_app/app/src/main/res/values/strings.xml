@@ -2,7 +2,7 @@
     <string name="app_name">PhoneApp</string>
     <string name="web_client_id">976272753848-kmqscbf3jfsetqb3drkv56s69b8aqng5.apps.googleusercontent.com</string>
     <string name="home">home</string>
-    <string name="notifications">notifications</string>
+    <string name="notifications">new notifications</string>
     <string name="settings">settings</string>
     <string name="sleep">sleep</string>
     <string name="exercises">exercises</string>

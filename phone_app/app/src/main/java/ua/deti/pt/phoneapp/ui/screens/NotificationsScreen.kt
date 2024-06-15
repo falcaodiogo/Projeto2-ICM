@@ -1,6 +1,7 @@
 package ua.deti.pt.phoneapp.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,7 +34,7 @@ import ua.deti.pt.phoneapp.ui.components.segments.Segments
 
 @Composable
 fun NotificationsScreen(navController: NavHostController) {
-    val segmentsCount = 3
+    val segmentsCount = 8
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.notifications_background),
@@ -42,11 +45,12 @@ fun NotificationsScreen(navController: NavHostController) {
         Column(
             modifier = Modifier
                 .padding(24.dp)
-                .padding(top = 100.dp),
+                .padding(top = 30.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Column(
-                modifier = Modifier.padding(bottom = 40.dp),
+                modifier = Modifier.padding(bottom = 40.dp, top = 40.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -76,35 +80,7 @@ fun NotificationsScreen(navController: NavHostController) {
                         Spacer(modifier = Modifier.height(4.dp))
                     }
                 }
-                Spacer(modifier = Modifier.size(64.dp))
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(140.dp)
-                        .clip(shape = RoundedCornerShape(16.dp)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.plannedcard),
-                        contentDescription = "Background",
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier
-                            .matchParentSize()
-                            .clickable {
-                                navController.navigate("planned_exercises")
-                            }
-                    )
-                    Text(
-                        text = "Planned\nExercises",
-                        fontSize = 36.sp,
-                        textAlign = TextAlign.Center,
-                        lineHeight = 36.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        modifier = Modifier.clickable {
-                            navController.navigate("planned_exercises")
-                        }
-                    )
-                }
+                Spacer(modifier = Modifier.size(84.dp))
             }
         }
     }

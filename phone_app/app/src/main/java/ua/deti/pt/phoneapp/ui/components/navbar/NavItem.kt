@@ -1,7 +1,9 @@
 package ua.deti.pt.phoneapp.ui.components.navbar
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddAlert
 import androidx.compose.material.icons.filled.Adjust
+import androidx.compose.material.icons.filled.AlignVerticalBottom
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Settings
@@ -14,7 +16,7 @@ sealed class NavItem {
         Item(
             path = NavPath.NOTIFICATIONS.toString(),
             title = NavTitle.NOTIFICATIONS,
-            icon = Icons.Default.Adjust
+            icon = Icons.Default.AddAlert
         )
 
     object Sleep :
@@ -26,4 +28,7 @@ sealed class NavItem {
             title = NavTitle.SETTINGS,
             icon = Icons.Default.Settings
         )
+
+    object Exercises :
+        Item(path = NavPath.EXERCISES.toString(), title = NavTitle.EXERCISES, icon = Icons.Default.AlignVerticalBottom)
 }
