@@ -1,4 +1,4 @@
-package ua.deti.pt.phoneapp.data.d
+package ua.deti.pt.phoneapp.data.health
 
 import android.content.Context
 import android.content.Intent

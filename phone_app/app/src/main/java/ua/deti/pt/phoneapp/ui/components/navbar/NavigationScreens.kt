@@ -1,8 +1,10 @@
 package ua.deti.pt.phoneapp.ui.components.navbar
 
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,12 +22,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun NavigationScreens(
     navController: NavHostController,
     onSignOut: () -> Unit,
-    googleAuthUiClient: GoogleAuthUiClient
+    googleAuthUiClient: GoogleAuthUiClient,
+    context: Context
 ) {
 
     NavHost(navController, startDestination = NavItem.Home.path) {
         composable(NavItem.Home.path) { HomeScreen() }
-        composable(NavItem.Notifications.path) { NotificationsScreen(navController) }
+        composable(NavItem.Notifications.path) { NotificationsScreen(navController, context) }
         composable(NavItem.Sleep.path) { SleepScreen() }
         composable(NavItem.Settings.path) {
             val userData = googleAuthUiClient.getSignedInUser()

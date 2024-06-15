@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ua.deti.pt.phoneapp.R
-import ua.deti.pt.phoneapp.data.d.SleepSessionData
+import ua.deti.pt.phoneapp.data.health.SleepSessionData
 import java.time.format.DateTimeFormatter
 
 @Composable

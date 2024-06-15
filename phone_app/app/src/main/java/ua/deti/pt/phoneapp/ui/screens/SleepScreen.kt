@@ -27,11 +27,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.yml.charts.common.model.Point
-import ua.deti.pt.phoneapp.data.d.SleepSessionData
-import ua.deti.pt.phoneapp.data.d.SleepSessionViewModel
+import ua.deti.pt.phoneapp.data.health.SleepSessionData
+import ua.deti.pt.phoneapp.data.health.SleepSessionViewModel
 import ua.deti.pt.phoneapp.ui.components.sleepchart.SingleLineChartWithGridLines
 import ua.deti.pt.phoneapp.ui.components.sleepchart.SleepSessionRow
-import java.time.temporal.ChronoUnit
 import java.util.UUID
 
 @Composable

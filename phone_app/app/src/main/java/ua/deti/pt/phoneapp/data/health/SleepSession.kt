@@ -1,4 +1,4 @@
-package ua.deti.pt.phoneapp.data.d
+package ua.deti.pt.phoneapp.data.health
 
 import androidx.health.connect.client.records.SleepSessionRecord
 import java.time.Duration
