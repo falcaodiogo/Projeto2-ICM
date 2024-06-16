@@ -5,9 +5,21 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">From the Square world,\nHello, %1$s!</string>
+
     <string name="no_hr_reading">--</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="icon">Icon</string>
     <string name="not_available">Not available on this device</string>
+
+    <string name="goals_toggle">Goals</string>
+    <string name="floor_goals_description">Floor goals achieved</string>
+    <string name="floor_description">Floors</string>
+    <string name="waiting">Waiting!</string>
+
+    <string name="steps_goal_achieved">Great!</string>
+    <string name="steps_goal_not_yet_achieved">Keep going!</string>
+    <string name="steps_goals_description">Today\'s step goal</string>
+    <string name="steps_description">Steps</string>
+
 </resources>
