@@ -1,4 +1,4 @@
-package ua.deti.pt.phoneapp.ui.components.map
+package ua.deti.pt.phoneapp.ui.components.dialog
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
-fun AlertDialogMap(
+fun AlertDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
@@ -26,7 +26,7 @@ fun AlertDialogMap(
             Text(text = dialogText)
         },
         onDismissRequest = {
-            onDismissRequest()
+            onConfirmation()
         },
         confirmButton = {
             TextButton(

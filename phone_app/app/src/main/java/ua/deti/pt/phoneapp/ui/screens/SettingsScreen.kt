@@ -42,7 +42,7 @@ fun ProfileScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 88.dp)
-                .padding(horizontal = 36.dp),
+                .padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (userData?.profilePictureUrl != null) {
@@ -71,7 +71,6 @@ fun ProfileScreen(
                 title = "Goals",
                 description = "",
                 color = Color(0xff5EBFBF),
-                background = Color(0xffe0ecec),
             )
             Spacer(modifier = Modifier.size(16.dp))
             Segments(
@@ -79,7 +78,6 @@ fun ProfileScreen(
                 title = "Logout",
                 description = "",
                 color = Color(0xff5EBFBF),
-                background = Color(0xffe0ecec)
             )
             Spacer(modifier = Modifier.size(16.dp))
             Segments(
@@ -87,7 +85,6 @@ fun ProfileScreen(
                 title = "Others",
                 description = "",
                 color = Color(0xff5EBFBF),
-                background = Color(0xffe0ecec)
             )
         }
     }

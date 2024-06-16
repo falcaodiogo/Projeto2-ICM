@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,7 +39,9 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import ua.deti.pt.phoneapp.R
 import ua.deti.pt.phoneapp.data.notifications.NotificationHandler
+import ua.deti.pt.phoneapp.ui.components.dialog.AlertDialog
 import ua.deti.pt.phoneapp.ui.components.segments.Segments
+
 @OptIn(ExperimentalPermissionsApi::class)
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
@@ -45,6 +49,7 @@ fun NotificationsScreen(navController: NavHostController, context: Context) {
     val postNotificationPermission = rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
     val notificationHandler = NotificationHandler(context)
     var notifications by remember { mutableStateOf(notificationHandler.returnAllNotifications()) }
+    val openAlertDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
         if (!postNotificationPermission.status.isGranted) {
@@ -91,13 +96,33 @@ fun NotificationsScreen(navController: NavHostController, context: Context) {
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 for (i in 1..notifications.size) {
-                    Segments(
-                        onClick = {},
-                        title = "Notification $i",
-                        description = "Message or text with notification",
-                        color = Color(0xFF9fae41),
-                        background = Color(0xFFe8e4cc)
-                    )
+                    if (openAlertDialog.value) {
+                        AlertDialog(
+                            onDismissRequest = {
+                                openAlertDialog.value = false
+                                notificationHandler.deleteNotification(i-1)
+                                notifications = notificationHandler.returnAllNotifications()
+                            },
+                            onConfirmation = {
+                                openAlertDialog.value = false
+                            },
+                            dialogTitle = notificationHandler.getAllNotificationTitlesAndTexts()[i-1].first!!,
+                            dialogText = notificationHandler.getAllNotificationTitlesAndTexts()[i-1].second!!,
+                            icon = Icons.Default.Info
+                        )
+                    }
+                    notificationHandler.getAllNotificationTitlesAndTexts()[i-1].first?.let {
+                        Segments(
+                            onClick = {
+                                openAlertDialog.value = true
+                            },
+                            title = it,
+                            description = (notificationHandler.getAllNotificationTitlesAndTexts()[i - 1].second?.take(
+                                30
+                            ) + "..."),
+                            color = Color(0xFF9fae41)
+                        )
+                    }
                     if (i < notifications.size) {
                         Spacer(modifier = Modifier.height(4.dp))
                     }
