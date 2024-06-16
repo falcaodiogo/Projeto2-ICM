@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
@@ -13,6 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.health.connect.client.records.SleepSessionRecord
@@ -22,6 +25,7 @@ import com.jaikeerthick.composable_graphs.composables.line.style.LineGraphColors
 import com.jaikeerthick.composable_graphs.composables.line.style.LineGraphFillType
 import com.jaikeerthick.composable_graphs.composables.line.style.LineGraphStyle
 import com.jaikeerthick.composable_graphs.composables.line.style.LineGraphVisibility
+import ua.deti.pt.phoneapp.R
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -62,9 +66,9 @@ fun SleepScreen(
                 SleepSessionRecord.STAGE_TYPE_AWAKE -> 0f
                 SleepSessionRecord.STAGE_TYPE_AWAKE_IN_BED -> 7f
                 SleepSessionRecord.STAGE_TYPE_DEEP -> 5f
-                SleepSessionRecord.STAGE_TYPE_LIGHT -> 4f
+                SleepSessionRecord.STAGE_TYPE_LIGHT -> 1f
                 SleepSessionRecord.STAGE_TYPE_OUT_OF_BED -> 3f
-                SleepSessionRecord.STAGE_TYPE_REM -> 6f
+                SleepSessionRecord.STAGE_TYPE_REM -> 2f
                 else -> 0f
             }
             val lineData = LineData(formattedTime, value)
@@ -74,50 +78,74 @@ fun SleepScreen(
         dataProcessed = true
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-            .padding(top = 120.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Your sleep",
-            color = Color.White,
-            fontSize = 32.sp,
-            modifier = Modifier.padding(bottom = 40.dp)
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.sleep_background),
+            contentDescription = "Background",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier.matchParentSize()
         )
-        Spacer(modifier = Modifier.padding(10.dp))
-        Box(modifier = Modifier.padding(20.dp)) {
-            if (sessionRecords.value.isNotEmpty()) {
-                Row {
-                    Text(modifier = Modifier.padding(top = 70.dp, start = 12.dp), text = "oi")
-
-                    LineGraph(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 12.dp),
-                        data = pointsData.value,
-                        onPointClick = { value: LineData ->
-                            showToast(context, value.x, stageMap[value.y] ?: "On bed")
-                        },
-                        style = LineGraphStyle(
-                            visibility = LineGraphVisibility(
-                                isYAxisLabelVisible = false,
-                                isCrossHairVisible = true
-                            ),
-                            colors = LineGraphColors(
-                                lineColor = Color.White,
-                                pointColor = Color.Black,
-                                clickHighlightColor = Color.White,
-                                fillType = LineGraphFillType.Gradient(
-                                    brush = Brush.verticalGradient(listOf(Color.Black, Color.Gray))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 120.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Your sleep",
+                color = Color.White,
+                fontSize = 32.sp,
+                modifier = Modifier.padding(bottom = 90.dp)
+            )
+            Spacer(modifier = Modifier.padding(10.dp))
+            Box(modifier = Modifier.padding(start = 20.dp)) {
+                if (sessionRecords.value.isNotEmpty()) {
+                    Row {
+                        Column {
+                            Text(
+                                modifier = Modifier.padding(top = 10.dp, start = 12.dp),
+                                text = "REM"
+                            )
+                            Text(
+                                modifier = Modifier.padding(top = 110.dp, start = 12.dp),
+                                text = "Light sleep"
+                            )
+                            Text(
+                                modifier = Modifier.padding(top = 110.dp, start = 12.dp),
+                                text = "Awake"
+                            )
+                        }
+                        LineGraph(
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp, vertical = 12.dp),
+                            data = pointsData.value,
+                            onPointClick = { value: LineData ->
+                                showToast(context, value.x, stageMap[value.y] ?: "Awake")
+                            },
+                            style = LineGraphStyle(
+                                visibility = LineGraphVisibility(
+                                    isYAxisLabelVisible = false,
+                                    isCrossHairVisible = true
+                                ),
+                                colors = LineGraphColors(
+                                    lineColor = Color.White,
+                                    pointColor = Color.Black,
+                                    clickHighlightColor = Color.White,
+                                    fillType = LineGraphFillType.Gradient(
+                                        brush = Brush.verticalGradient(
+                                            listOf(
+                                                Color.Black,
+                                                Color.Gray
+                                            )
+                                        )
+                                    )
                                 )
                             )
                         )
-                    )
+                    }
+                } else {
+                    Text(text = "No sleep data available.", color = Color.White)
                 }
-            } else {
-                Text(text = "No sleep data available.", color = Color.White)
             }
         }
     }
