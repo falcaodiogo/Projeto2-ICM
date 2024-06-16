@@ -11,25 +11,31 @@ import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import ua.deti.pt.wearosapp.PERMISSION
-import ua.deti.pt.wearosapp.screens.MainScreen
-import ua.deti.pt.wearosapp.service.HealthServicesRepository
+import ua.deti.pt.wearosapp.repositories.GoalsRepository
+import ua.deti.pt.wearosapp.repositories.HealthServiceRepository
 import ua.deti.pt.wearosapp.theme.WearOSAppTheme
-import ua.deti.pt.wearosapp.ui.viewModels.MeasureDataViewModel
-import ua.deti.pt.wearosapp.ui.viewModels.MeasureDataViewModelFactory
+import ua.deti.pt.wearosapp.ui.screens.ErrorScreen
+import ua.deti.pt.wearosapp.ui.screens.MainScreen
+import ua.deti.pt.wearosapp.ui.viewModels.PassiveGoalsViewModel
+import ua.deti.pt.wearosapp.ui.viewModels.PassiveGoalsViewModelFactory
 import ua.deti.pt.wearosapp.ui.viewModels.UiState
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun WearOSApp(
-    healthServicesRepository: HealthServicesRepository
+    healthServiceRepository: HealthServiceRepository,
+    goalsRepository: GoalsRepository
 ) {
     WearOSAppTheme {
         Scaffold(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
-            val viewModel: MeasureDataViewModel = viewModel(
-                factory = MeasureDataViewModelFactory(healthServicesRepository = healthServicesRepository)
+            val viewModel: PassiveGoalsViewModel = viewModel(
+                factory = PassiveGoalsViewModelFactory(
+                    healthServicesRepository = healthServiceRepository,
+                    goalsRepository = goalsRepository
+                )
             )
 
             val uiState by viewModel.uiState
@@ -44,9 +50,11 @@ fun WearOSApp(
                 )
                 MainScreen(
                     navController = navController,
-                    permissionState = permissionState,
-                    measureDataViewModel = viewModel
+                    measureDataViewModel = viewModel,
+                    permissionState = permissionState
                 )
+            } else if (uiState == UiState.NotSupported) {
+                ErrorScreen()
             }
         }
     }

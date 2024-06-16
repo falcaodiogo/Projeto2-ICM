@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.wear.compose.material.Text
 import ua.deti.pt.wearosapp.R
-import ua.deti.pt.wearosapp.components.navbar.BottomNavigationBar
+import ua.deti.pt.wearosapp.ui.components.navbar.BottomNavigationBar
 
 @Composable
 fun SettingsScreen(navController: NavController) {

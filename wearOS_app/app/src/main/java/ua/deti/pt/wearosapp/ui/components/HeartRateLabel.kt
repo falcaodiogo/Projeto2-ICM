@@ -3,7 +3,6 @@ package ua.deti.pt.wearosapp.ui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.HeartBroken
@@ -18,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.health.services.client.data.DataTypeAvailability
 import androidx.wear.compose.material.Icon
+import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ua.deti.pt.wearosapp.R
@@ -54,7 +54,7 @@ fun HeartRateLabel(
         )
         Text(
             text = text,
-            style = MaterialTheme.typography.h3
+            style = MaterialTheme.typography.caption3
         )
     }
 }

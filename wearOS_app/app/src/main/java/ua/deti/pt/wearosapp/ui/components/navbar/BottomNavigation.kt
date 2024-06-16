@@ -1,4 +1,4 @@
-package ua.deti.pt.wearosapp.components.navbar
+package ua.deti.pt.wearosapp.ui.components.navbar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

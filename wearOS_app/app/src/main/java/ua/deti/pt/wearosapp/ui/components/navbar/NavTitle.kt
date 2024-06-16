@@ -1,4 +1,4 @@
-package ua.deti.pt.wearosapp.components.navbar
+package ua.deti.pt.wearosapp.ui.components.navbar
 
 object NavTitle {
     const val HOME = "Home"

@@ -27,10 +27,16 @@ class MainActivity : ComponentActivity() {
         val healthServicesRepository =
             (application as MainApplication).healthServicesRepository
 
+        val goalsRepository =
+            (application as MainApplication).goalsRepository
+
         setTheme(android.R.style.Theme_DeviceDefault)
 
         setContent {
-            WearOSApp(healthServicesRepository = healthServicesRepository)
+            WearOSApp(
+                healthServiceRepository = healthServicesRepository,
+                goalsRepository = goalsRepository
+            )
         }
     }
 }

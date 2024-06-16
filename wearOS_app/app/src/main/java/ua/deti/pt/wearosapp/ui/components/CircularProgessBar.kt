@@ -1,4 +1,4 @@
-package ua.deti.pt.wearosapp.components
+package ua.deti.pt.wearosapp.ui.components
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -86,7 +86,11 @@ fun CircularProgressBar(
     }
 }
 
-fun progressFlow(targetProgress: Float = 1f, step: Float = 0.01f, delayTime: Long = 1L): Flow<Float> {
+fun progressFlow(
+    targetProgress: Float = 1f,
+    step: Float = 0.01f,
+    delayTime: Long = 1L
+): Flow<Float> {
     return flow {
         var progress = 0f
 
