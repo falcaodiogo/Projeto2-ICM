@@ -82,6 +82,13 @@ dependencies {
     implementation(libs.guava)
     implementation(libs.concurrent.futures)
 
+    // Used for WorkManager
+    implementation(libs.androidx.work)
+    implementation(libs.androidx.work.ktx)
+
+    // DataStore
+    implementation(libs.androidx.datastore)
+
     // Permissions
     implementation(libs.accompanist.permissions)
 }
