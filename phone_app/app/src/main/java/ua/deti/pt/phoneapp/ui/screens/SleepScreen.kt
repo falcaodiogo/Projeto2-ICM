@@ -40,11 +40,13 @@ fun SleepScreen(
     val sessionRecords = rememberSaveable { mutableStateOf<List<SleepSessionRecord.Stage>>(emptyList()) }
     val pointsData = rememberSaveable { mutableStateOf<List<LineData>>(emptyList()) }
     var dataProcessed by remember { mutableStateOf(false) }
-    var startTimeSleep = remember { Instant.now() }
-    var endTimeSleep = remember { Instant.now() }
+    var startTimeSleep by remember { mutableStateOf(Instant.now()) }
+    var endTimeSleep by remember { mutableStateOf(Instant.now()) }
+    val formatter = DateTimeFormatter.ofPattern("HH:mm").withZone(ZoneId.systemDefault())
     val stageMap = mapOf(
-        2f to "Sleeping",
-        1f to "Awake",
+        2f to "REM",
+        0f to "Awake",
+        1f to "Light sleep",
         7f to "Awake in bed",
         5f to "Deep sleep",
         4f to "Light sleep",
@@ -60,11 +62,9 @@ fun SleepScreen(
 
     if (!dataProcessed && sessionRecords.value.isNotEmpty()) {
         val newPointsData = mutableListOf<LineData>()
-        val formatter = DateTimeFormatter.ofPattern("HH:mm").withZone(ZoneId.systemDefault())
         for (record in sessionRecords.value) {
             val formattedTime = formatter.format(record.startTime)
             val value = when (record.stage) {
-                SleepSessionRecord.STAGE_TYPE_SLEEPING -> 2f
                 SleepSessionRecord.STAGE_TYPE_AWAKE -> 0f
                 SleepSessionRecord.STAGE_TYPE_AWAKE_IN_BED -> 7f
                 SleepSessionRecord.STAGE_TYPE_DEEP -> 5f
@@ -77,6 +77,8 @@ fun SleepScreen(
             newPointsData.add(lineData)
         }
         pointsData.value = newPointsData
+        startTimeSleep = sessionRecords.value.first().startTime
+        endTimeSleep = sessionRecords.value.last().endTime
         dataProcessed = true
     }
 
@@ -100,7 +102,13 @@ fun SleepScreen(
                 modifier = Modifier.padding(bottom = 90.dp)
             )
             Spacer(modifier = Modifier.padding(10.dp))
-            Box(modifier = Modifier.clip(shape = RoundedCornerShape(26.dp)).background(Color.Black).padding(20.dp).padding(bottom = 40.dp, top = 20.dp)) {
+            Box(
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(26.dp))
+                    .background(Color.Black)
+                    .padding(20.dp)
+                    .padding(bottom = 40.dp, top = 20.dp)
+            ) {
                 if (sessionRecords.value.isNotEmpty()) {
                     Row {
                         Column {
@@ -127,6 +135,7 @@ fun SleepScreen(
                             style = LineGraphStyle(
                                 visibility = LineGraphVisibility(
                                     isYAxisLabelVisible = false,
+                                    isXAxisLabelVisible = false,
                                     isCrossHairVisible = true
                                 ),
                                 colors = LineGraphColors(
@@ -144,6 +153,12 @@ fun SleepScreen(
                                 )
                             )
                         )
+                    }
+                    Row(modifier = Modifier.padding(top = 330.dp)) {
+                        Spacer(modifier = Modifier.width(120.dp))
+                        Text(text = formatter.format(startTimeSleep), color = Color.White)
+                        Spacer(modifier = Modifier.width(160.dp))
+                        Text(text = formatter.format(endTimeSleep), color = Color.White)
                     }
                 } else {
                     Text(text = "No sleep data available.", color = Color.White)
