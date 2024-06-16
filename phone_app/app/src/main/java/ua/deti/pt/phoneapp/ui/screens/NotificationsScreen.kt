@@ -63,8 +63,9 @@ fun NotificationsScreen(navController: NavHostController, context: Context) {
             modifier = Modifier
                 .padding(24.dp)
                 .padding(top = 30.dp)
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.Start
+                .verticalScroll(rememberScrollState())
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(modifier = Modifier.padding(top=20.dp), onClick = { notificationHandler.showSimpleNotification()
                 notifications = notificationHandler.returnAllNotifications()}) {
