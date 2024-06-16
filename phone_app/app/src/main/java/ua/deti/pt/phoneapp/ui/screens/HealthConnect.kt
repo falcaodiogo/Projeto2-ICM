@@ -27,13 +27,14 @@ val PERMISSIONS = setOf(
 @Composable
 fun HealthConnectScreen(
     onStepsAndCaloriesUpdated: (Int, Float) -> Unit,
-    onSleepDataUpdated: () -> Unit
+    onSleepDataUpdated: (list: List<SleepSessionRecord.Stage>) -> Unit
 ) {
     val context = LocalContext.current
     var stepsCount by remember { mutableStateOf(0) }
     var caloriesCount by remember { mutableStateOf(0f) }
     var healthConnectClient by remember { mutableStateOf<HealthConnectClient?>(null) }
     val coroutineScope = rememberCoroutineScope()
+    var sleepSessionRecords by remember { mutableStateOf<List<SleepSessionRecord.Stage>>(emptyList()) }
 
     val requestPermissionsLauncher = rememberLauncherForActivityResult(
         contract = PermissionController.createRequestPermissionResultContract()
@@ -41,6 +42,13 @@ fun HealthConnectScreen(
         if (result.containsAll(PERMISSIONS)) {
             println("Permissions granted")
             coroutineScope.launch {
+                readSleepData(
+                    healthConnectClient!!,
+                    onSleepDataUpdated = { newSleepSessionRecords ->
+                        sleepSessionRecords = newSleepSessionRecords
+                        onSleepDataUpdated(sleepSessionRecords)
+                    }
+                )
                 readStepsAndCalculateCalories(
                     healthConnectClient!!,
                     onStepsAndCaloriesUpdated = { steps, calories ->
@@ -49,9 +57,6 @@ fun HealthConnectScreen(
                         onStepsAndCaloriesUpdated(stepsCount, caloriesCount)
                     }
                 )
-                readSleepData(healthConnectClient!!) {
-                    onSleepDataUpdated()
-                }
             }
         } else {
             Toast.makeText(context, "Permissions not granted", Toast.LENGTH_SHORT).show()
@@ -72,8 +77,9 @@ fun HealthConnectScreen(
                         caloriesCount = calories
                         onStepsAndCaloriesUpdated(stepsCount, caloriesCount)
                     }
-                    readSleepData(client) {
-
+                    readSleepData(client) { newSleepSessionRecords ->
+                        sleepSessionRecords = newSleepSessionRecords
+                        onSleepDataUpdated(sleepSessionRecords)
                     }
                 } else {
                     requestPermissionsLauncher.launch(PERMISSIONS)
@@ -146,7 +152,7 @@ suspend fun readStepsAndCalculateCalories(
 
 suspend fun readSleepData(
     healthConnectClient: HealthConnectClient,
-    onSleepDataUpdated: () -> Unit
+    onSleepDataUpdated: (list: List<SleepSessionRecord.Stage>) -> Unit
 ) {
     try {
         val response = healthConnectClient.readRecords(
@@ -160,14 +166,12 @@ suspend fun readSleepData(
             )
         )
 
-        val sleepSessions = mutableListOf<SleepSessionRecord>()
-        // not receiving any data right now
+        val sleepSessions = mutableListOf<SleepSessionRecord.Stage>()
         for (sleepRecord in response.records) {
-            sleepSessions.add(sleepRecord)
-            println("Sleep: $sleepRecord")
+            sleepSessions.addAll(sleepRecord.stages)
         }
 
-        onSleepDataUpdated.invoke()
+        onSleepDataUpdated(sleepSessions)
     } catch (e: Exception) {
         println("Error reading sleep data: $e")
         e.printStackTrace()
