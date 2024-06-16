@@ -1,6 +1,9 @@
 package ua.deti.pt.phoneapp.ui.screens
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Scaffold
@@ -13,17 +16,19 @@ import ua.deti.pt.phoneapp.Auth.GoogleAuthUiClient
 import ua.deti.pt.phoneapp.ui.components.navbar.BottomNavigationBar
 import ua.deti.pt.phoneapp.ui.components.navbar.NavigationScreens
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
     navController: NavHostController,
     onSignOut: () -> Unit,
-    googleAuthUiClient: GoogleAuthUiClient
+    googleAuthUiClient: GoogleAuthUiClient,
+    context: Context
 ) {
     Scaffold(bottomBar = {
         BottomAppBar(
             containerColor = Color.Black,
             modifier = Modifier.height(120.dp)
         ) { BottomNavigationBar(navController = navController) }
-    }) { NavigationScreens(navController = navController, onSignOut, googleAuthUiClient) }
+    }) { NavigationScreens(navController = navController, onSignOut, googleAuthUiClient, context) }
 }

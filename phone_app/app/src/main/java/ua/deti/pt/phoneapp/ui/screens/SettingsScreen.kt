@@ -71,7 +71,7 @@ fun ProfileScreen(
                 title = "Goals",
                 description = "",
                 color = Color(0xff5EBFBF),
-                background = Color(0xffe0ecec)
+                background = Color(0xffe0ecec),
             )
             Spacer(modifier = Modifier.size(16.dp))
             Segments(

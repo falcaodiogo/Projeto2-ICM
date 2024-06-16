@@ -1,6 +1,5 @@
 package ua.deti.pt.phoneapp.ui.screens
 
-import HealthConnectScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -52,6 +51,7 @@ fun HomeScreen() {
             HealthConnectScreen(onStepsAndCaloriesUpdated = { updatedSteps, updatedCalories ->
                 steps = updatedSteps
                 calories = updatedCalories
+            }, onSleepDataUpdated = {
             })
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
                 Box (
@@ -60,7 +60,7 @@ fun HomeScreen() {
                     val progressFlow = remember { progressFlow(delayTime = 10L) }
                     val progressState = progressFlow.collectAsState(initial = 0f)
                     // MUDAR EVENTUALMENTE PARA O QUE O USER QUISER
-                    val defined_user_calories_goal = 3f
+                    val defined_user_calories_goal = 1000f
                     CircularProgressBar(
                         progress = calories / defined_user_calories_goal,
                         startAngle = 180f,
@@ -73,8 +73,8 @@ fun HomeScreen() {
                 }
                 Column {
                     Box {
-                        Text(text = "$calories", fontSize = 40.sp)
-                        Text(text = "Cal", fontSize = 20.sp, modifier = Modifier.padding(top = 48.dp))
+                        Text(text = String.format("%.01f", calories), fontSize = 40.sp)
+                        Text(text = "cal", fontSize = 20.sp, modifier = Modifier.padding(top = 48.dp))
                     }
                     Spacer(modifier = Modifier.size(8.dp))
                     Box {

@@ -55,6 +55,9 @@ dependencies {
     // health connect
     implementation(libs.androidx.connect.client)
 
+    implementation("co.yml:ycharts:2.1.0")
+    implementation ("androidx.compose.animation:animation:1.3.3")
+    implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

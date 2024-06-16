@@ -4,9 +4,9 @@
 
     <!--Permissions-->
     <uses-permission android:name="android.permission.health.READ_HEART_RATE"/>
-    <uses-permission android:name="android.permission.health.WRITE_HEART_RATE"/>
     <uses-permission android:name="android.permission.health.READ_STEPS"/>
-    <uses-permission android:name="android.permission.health.WRITE_STEPS"/>
+    <uses-permission android:name="android.permission.health.READ_SLEEP"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"

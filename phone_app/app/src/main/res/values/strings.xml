@@ -6,4 +6,5 @@
     <string name="settings">settings</string>
     <string name="sleep">sleep</string>
     <string name="exercises">exercises</string>
+    <string name="sleep_start_end">test</string>
 </resources>
