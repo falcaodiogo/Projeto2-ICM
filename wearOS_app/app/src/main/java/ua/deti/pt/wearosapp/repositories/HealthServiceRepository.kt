@@ -1,49 +1,93 @@
 package ua.deti.pt.wearosapp.repositories
 
 import android.content.Context
-import android.util.Log
-import androidx.concurrent.futures.await
-import androidx.health.services.client.HealthServices
-import androidx.health.services.client.data.PassiveListenerConfig
-import ua.deti.pt.wearosapp.TAG
-import ua.deti.pt.wearosapp.service.PassiveGoalsService
+import androidx.health.services.client.data.LocationAvailability
+import dagger.hilt.android.ActivityRetainedLifecycle
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import ua.deti.pt.wearosapp.di.bindService
+import ua.deti.pt.wearosapp.service.ExerciseLogger
+import ua.deti.pt.wearosapp.service.ExerciseService
+import ua.deti.pt.wearosapp.service.ExerciseServiceState
+import javax.inject.Inject
+
+@ActivityRetainedScoped
+class HealthServiceRepository @Inject constructor(
+    @ApplicationContext private val applicationContext: Context,
+    val exerciseClientManager: ExerciseClientManager,
+    val logger: ExerciseLogger,
+    val coroutineScope: CoroutineScope,
+    val lifecycle: ActivityRetainedLifecycle
+) {
+    private val binderConnection =
+        lifecycle.bindService<ExerciseService.LocalBinder, ExerciseService>(applicationContext)
+
+    private val exerciseServiceStateUpdates: Flow<ExerciseServiceState> =
+        binderConnection.flowWhenConnected(ExerciseService.LocalBinder::exerciseServiceState)
+
+    private var errorState: MutableStateFlow<String?> = MutableStateFlow(null)
+
+    val serviceState: StateFlow<ServiceState> =
+        exerciseServiceStateUpdates.combine(errorState) { exerciseServiceState, errorString ->
+            ServiceState.Connected(exerciseServiceState.copy(error = errorString))
+        }.stateIn(
+            coroutineScope,
+            started = SharingStarted.Eagerly,
+            initialValue = ServiceState.Disconnected
+        )
+
+    suspend fun hasExerciseCapability(): Boolean = getExerciseCapabilities() != null
+
+    private suspend fun getExerciseCapabilities() = exerciseClientManager.getExerciseCapabilities()
+
+    suspend fun isExerciseInProgress(): Boolean =
+        exerciseClientManager.exerciseClient.isExerciseInProgress()
+
+    suspend fun isTrackingExerciseInAnotherApp(): Boolean =
+        exerciseClientManager.exerciseClient.isTrackingExerciseInAnotherApp()
+
+    fun prepareExercise() = serviceCall { prepareExercise() }
+
+    private fun serviceCall(function: suspend ExerciseService.() -> Unit) = coroutineScope.launch {
+        binderConnection.runWhenConnected {
+            function(it.getService())
+        }
+    }
+
+    fun startExercise() = serviceCall {
+        try {
+            errorState.value = null
+            startExercise()
+        } catch (e: Exception) {
+            errorState.value = e.message
+            logger.error("Error starting exercise", e.fillInStackTrace())
+        }
+    }
+
+    fun pauseExercise() = serviceCall { pauseExercise() }
+    fun endExercise() = serviceCall { endExercise() }
+    fun resumeExercise() = serviceCall { resumeExercise() }
+}
 
 /**
- * Entry point for [HealthServicesClient] APIs. This also provides suspend functions around
- * those APIs to enable use in coroutines.
- */
-class HealthServiceRepository(context: Context) {
+ * Store exercise values in the service state. While the service is connected,
+ * the values will persist.
+ **/
+sealed class ServiceState {
+    data object Disconnected : ServiceState()
 
-    private val healthServicesClient = HealthServices.getClient(context)
-    private val passiveMonitoringClient = healthServicesClient.passiveMonitoringClient
-
-    private val goals = setOf(dailyStepsGoal, floorsGoal)
-    private val requiredDataTypes = goals.map { it.dataTypeCondition.dataType }.toSet()
-
-    // Note that the dataTypes in the [PassiveListenerConfig] should contain all the data types
-    // required by the specified dailyGoals.
-    private val passiveListenerConfig = PassiveListenerConfig(
-        dataTypes = requiredDataTypes,
-        shouldUserActivityInfoBeRequested = false,
-        dailyGoals = goals,
-        healthEventTypes = setOf()
-    )
-
-    suspend fun hasCapabilities(): Boolean {
-        val capabilities = passiveMonitoringClient.getCapabilitiesAsync().await()
-        return capabilities.supportedDataTypesPassiveGoals.containsAll(requiredDataTypes)
-    }
-
-    suspend fun subscribeForGoals() {
-        Log.i(TAG, "Subscribing for goals")
-        passiveMonitoringClient.setPassiveListenerServiceAsync(
-            PassiveGoalsService::class.java,
-            passiveListenerConfig
-        ).await()
-    }
-
-    suspend fun unsubscribeForGoals() {
-        Log.i(TAG, "Unsubscribing for goals")
-        passiveMonitoringClient.clearPassiveListenerServiceAsync().await()
+    data class Connected(
+        val exerciseServiceState: ExerciseServiceState
+    ) : ServiceState() {
+        val locationAvailabilityState: LocationAvailability =
+            exerciseServiceState.locationAvailability
     }
 }
