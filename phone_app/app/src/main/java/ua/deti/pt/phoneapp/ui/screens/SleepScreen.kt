@@ -7,7 +7,9 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -18,6 +20,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.health.connect.client.records.SleepSessionRecord
@@ -92,22 +95,23 @@ fun SleepScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 120.dp),
+                .verticalScroll(rememberScrollState())
+                .padding(top = 90.dp, start = 16.dp, end = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "Your sleep",
                 color = Color.White,
-                fontSize = 32.sp,
-                modifier = Modifier.padding(bottom = 90.dp)
+                fontSize = 36.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(vertical = 16.dp)
             )
-            Spacer(modifier = Modifier.padding(10.dp))
+            Spacer(modifier = Modifier.height(55.dp))
             Box(
                 modifier = Modifier
-                    .clip(shape = RoundedCornerShape(26.dp))
+                    .clip(shape = RoundedCornerShape(16.dp))
                     .background(Color.Black)
-                    .padding(20.dp)
-                    .padding(bottom = 40.dp, top = 20.dp)
+                    .padding(16.dp)
             ) {
                 if (sessionRecords.value.isNotEmpty()) {
                     Row {
@@ -127,7 +131,7 @@ fun SleepScreen(
                         }
                         LineGraph(
                             modifier = Modifier
-                                .padding(horizontal = 16.dp, vertical = 12.dp),
+                                .padding(top = 12.dp, bottom = 12.dp),
                             data = pointsData.value,
                             onPointClick = { value: LineData ->
                                 showToast(context, value.x, stageMap[value.y] ?: "Awake")
@@ -155,14 +159,30 @@ fun SleepScreen(
                         )
                     }
                     Row(modifier = Modifier.padding(top = 330.dp)) {
-                        Spacer(modifier = Modifier.width(120.dp))
+                        Spacer(modifier = Modifier.width(100.dp))
                         Text(text = formatter.format(startTimeSleep), color = Color.White)
-                        Spacer(modifier = Modifier.width(160.dp))
+                        Spacer(modifier = Modifier.width(170.dp))
                         Text(text = formatter.format(endTimeSleep), color = Color.White)
                     }
                 } else {
                     Text(text = "No sleep data available.", color = Color.White)
                 }
+            }
+            Spacer(modifier = Modifier.height(55.dp))
+            Box(
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(16.dp))
+                    .background(Color.Black)
+                    .padding(16.dp)
+            ) {
+                // duration of sleep
+                val duration = endTimeSleep.epochSecond - startTimeSleep.epochSecond
+                val hours = duration / 3600
+                val minutes = (duration % 3600) / 60
+                Text(
+                    text = "Your sleep duration was: $hours hours $minutes minutes",
+                    color = Color.White
+                )
             }
         }
     }
