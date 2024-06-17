@@ -72,10 +72,10 @@ fun NotificationsScreen(navController: NavHostController, context: Context) {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(modifier = Modifier.padding(top=20.dp), onClick = { notificationHandler.showSimpleNotification()
-                notifications = notificationHandler.returnAllNotifications()}) {
-                Text(text = "Send notification")
-            }
+//            Button(modifier = Modifier.padding(top=20.dp), onClick = { notificationHandler.showSimpleNotification()
+//                notifications = notificationHandler.returnAllNotifications()}) {
+//                Text(text = "Send notification")
+//            }
             Column(
                 modifier = Modifier.padding(bottom = 40.dp, top = 40.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
