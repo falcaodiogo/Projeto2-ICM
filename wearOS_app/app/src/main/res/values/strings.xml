@@ -5,7 +5,7 @@
     values-round/strings.xml for round devices.
     -->
     <!-- Screens -->
-    <string name="preparing_exercise">Preparing exercise</string>
+    <string name="click_to_start_exercise">Waiting to start exercise</string>
     <string name="start">Start</string>
     <string name="starting_up">Starting up</string>
     <string name="not_avail">Exercise not available on this device</string>
