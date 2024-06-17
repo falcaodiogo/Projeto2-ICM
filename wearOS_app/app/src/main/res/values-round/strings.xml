@@ -1,18 +1,40 @@
 <resources>
-    <string name="hello_world">From the Round world,\nHello, %1$s!</string>
-    <string name="no_hr_reading">--</string>
+    <!-- Screens -->
+    <string name="preparing_exercise">Preparing exercise</string>
     <string name="start">Start</string>
-    <string name="stop">Stop</string>
-    <string name="icon">Icon</string>
-    <string name="not_available">Not available on this device</string>
+    <string name="starting_up">Starting up</string>
+    <string name="not_avail">Exercise not available on this device</string>
+    <string name="error_starting_exercise">Error starting exercise</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="try_again">Would you like to try again?</string>
 
-    <string name="goals_toggle">Goals</string>
-    <string name="floor_goals_description">Floor goals achieved</string>
-    <string name="floor_description">Floors</string>
-    <string name="waiting">Waiting!</string>
+    <!-- GPS -->
+    <string name="GPS_acquiring">GPS Acquiring</string>
+    <string name="GPS_acquired">GPS Acquired!</string>
+    <string name="GPS_disabled">GPS Disabled on Device</string>
+    <string name="GPS_unavailable">GPS Unavailable</string>
+    <string name="GPS_initializing">GPS Initializing</string>
 
-    <string name="steps_goal_achieved">Great!</string>
-    <string name="steps_goal_not_yet_achieved">Keep going!</string>
-    <string name="steps_goals_description">Today\'s step goal</string>
-    <string name="steps_description">Steps</string>
+
+    <!-- Summary Screen -->
+    <string name="workout_complete">Workout complete!</string>
+    <string name="duration"> Duration </string>
+    <string name="distance"> Distance </string>
+    <string name="calories"> kCal </string>
+    <string name="avgHR"> AvgHR </string>
+    <string name="restart">Restart</string>
+
+    <!-- Descriptions -->
+    <string name="laps">Laps</string>
+    <string name="start_button_cd">Start</string>
+    <string name="stop_button_cd">End</string>
+    <string name="pause_button_cd">Pause</string>
+    <string name="resume_button_cd">Resume</string>
+    <string name="heart_rate">Heart Rate</string>
+
+    <!-- Exercise in Progress Dialog -->
+    <string name="confirm">Confirm</string>
+    <string name="deny">Deny</string>
+    <string name="exercise_in_progress">Exercise In Progress</string>
+    <string name="ending_continue">Ending other exercise. Continue?</string>
 </resources>
