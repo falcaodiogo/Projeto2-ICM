@@ -22,7 +22,7 @@ class SummaryViewModel @Inject constructor(
                 .toDouble(),
             totalDistance = savedStateHandle.get<Float>(Screen.Summary.totalDistanceArg)!!
                 .toDouble(),
-            elapsedTime = Duration.parse(savedStateHandle.get(Screen.Summary.elapsedTimeArg)!!)
+            elapsedTime = Duration.parse(savedStateHandle[Screen.Summary.elapsedTimeArg]!!)
         )
     )
 }

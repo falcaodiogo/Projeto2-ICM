@@ -33,8 +33,8 @@ import javax.inject.Singleton
 @SuppressLint("RestrictedApi")
 @Singleton
 class ExerciseClientManager @Inject constructor(
-    val healthServicesClient: HealthServicesClient,
-    val logger: ExerciseLogger
+    healthServicesClient: HealthServicesClient,
+    private val logger: ExerciseLogger
 ) {
     val exerciseClient: ExerciseClient = healthServicesClient.exerciseClient
 

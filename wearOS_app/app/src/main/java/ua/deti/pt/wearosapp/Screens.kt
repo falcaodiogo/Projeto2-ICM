@@ -6,18 +6,18 @@ import ua.deti.pt.wearosapp.ui.state.SummaryScreenState
 sealed class Screen(
     val route: String
 ) {
-    object Exercise : Screen("exercise")
-    object ExerciseNotAvailable : Screen("exerciseNotAvailable")
-    object PreparingExercise : Screen("preparingExercise")
-    object Summary : Screen("summaryScreen") {
+    data object Exercise : Screen("exercise")
+    data object ExerciseNotAvailable : Screen("exerciseNotAvailable")
+    data object PreparingExercise : Screen("preparingExercise")
+    data object Summary : Screen("summaryScreen") {
         fun buildRoute(summary: SummaryScreenState): String {
             return "$route/${summary.averageHeartRate}/${summary.totalDistance}/${summary.totalCalories}/${summary.elapsedTime}"
         }
 
-        val averageHeartRateArg = "averageHeartRate"
-        val totalDistanceArg = "totalDistance"
-        val totalCaloriesArg = "totalCalories"
-        val elapsedTimeArg = "elapsedTime"
+        const val averageHeartRateArg = "averageHeartRate"
+        const val totalDistanceArg = "totalDistance"
+        const val totalCaloriesArg = "totalCalories"
+        const val elapsedTimeArg = "elapsedTime"
     }
 }
 

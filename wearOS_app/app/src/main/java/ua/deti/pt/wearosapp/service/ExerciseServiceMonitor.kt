@@ -10,10 +10,10 @@ import ua.deti.pt.wearosapp.repositories.ExerciseMessage
 import javax.inject.Inject
 
 class ExerciseServiceMonitor @Inject constructor(
-    val exerciseClientManager: ExerciseClientManager,
+    private val exerciseClientManager: ExerciseClientManager,
     val service: Service
 ) {
-    val exerciseService = service as ExerciseService
+    private val exerciseService = service as ExerciseService
 
     val exerciseServiceState = MutableStateFlow(
         ExerciseServiceState(

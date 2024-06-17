@@ -22,10 +22,10 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class HealthServiceRepository @Inject constructor(
     @ApplicationContext private val applicationContext: Context,
-    val exerciseClientManager: ExerciseClientManager,
-    val logger: ExerciseLogger,
-    val coroutineScope: CoroutineScope,
-    val lifecycle: ActivityRetainedLifecycle
+    private val exerciseClientManager: ExerciseClientManager,
+    private val logger: ExerciseLogger,
+    private val coroutineScope: CoroutineScope,
+    lifecycle: ActivityRetainedLifecycle
 ) {
     private val binderConnection =
         lifecycle.bindService<ExerciseService.LocalBinder, ExerciseService>(applicationContext)

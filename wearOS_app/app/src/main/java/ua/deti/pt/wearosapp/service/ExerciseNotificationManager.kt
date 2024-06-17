@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class ExerciseNotificationManager @Inject constructor(
     @ApplicationContext val applicationContext: Context,
-    val manager: NotificationManager
+    private val manager: NotificationManager
 ) {
 
     fun createNotificationChannel() {

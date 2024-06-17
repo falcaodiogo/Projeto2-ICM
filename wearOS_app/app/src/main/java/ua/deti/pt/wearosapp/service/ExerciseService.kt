@@ -18,8 +18,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import ua.deti.pt.wearosapp.repositories.ExerciseClientManager
 import ua.deti.pt.wearosapp.repositories.isExerciseInProgress
+import java.time.Duration
 import javax.inject.Inject
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 @AndroidEntryPoint
@@ -181,8 +181,8 @@ class ExerciseService : LifecycleService() {
             startForeground(
                 ExerciseNotificationManager.NOTIFICATION_ID,
                 exerciseNotificationManager.buildNotification(
-                    (serviceState.activeDurationCheckpoint?.activeDuration
-                        ?: Duration.ZERO) as java.time.Duration
+                    serviceState.activeDurationCheckpoint?.activeDuration
+                        ?: Duration.ZERO
                 )
             )
         }
