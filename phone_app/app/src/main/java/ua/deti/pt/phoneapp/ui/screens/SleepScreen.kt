@@ -121,11 +121,11 @@ fun SleepScreen(
                                 text = "REM"
                             )
                             Text(
-                                modifier = Modifier.padding(top = 110.dp, start = 12.dp),
+                                modifier = Modifier.padding(top = 150.dp, start = 12.dp),
                                 text = "Light sleep"
                             )
                             Text(
-                                modifier = Modifier.padding(top = 110.dp, start = 12.dp),
+                                modifier = Modifier.padding(top = 95.dp, start = 12.dp),
                                 text = "Awake"
                             )
                         }
