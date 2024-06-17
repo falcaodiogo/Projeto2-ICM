@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.roborazzi)
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -49,46 +51,51 @@ android {
 }
 
 dependencies {
-    implementation("androidx.compose.material:material:latest")
-    implementation("androidx.wear.compose:compose-navigation:1.3.1")
-    implementation(libs.play.services.wearable)
-    implementation(platform(libs.compose.bom))
-    implementation(libs.ui)
-    implementation(libs.ui.tooling.preview)
-    implementation(libs.compose.material)
-    implementation(libs.compose.foundation)
-    implementation(libs.activity.compose)
-    implementation(libs.core.splashscreen)
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.ui.test.junit4)
-    debugImplementation(libs.ui.tooling)
-    debugImplementation(libs.ui.test.manifest)
 
     // General compose dependencies
     implementation(libs.androidx.activity.compose)
-    implementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.tooling.preview)
 
+    // Compose for Wear OS Dependencies
     implementation(libs.wear.compose.material)
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.wear)
+    implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.compose.ui.tooling)
+
+    // Foundation is additive, so you can use the mobile version in your Wear OS app.
     implementation(libs.wear.compose.foundation)
 
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.compose.material.icons.extended)
+    implementation(libs.guava)
+    implementation(libs.androidx.concurrent)
 
-    // Health Services
+    // Wear OS Compose Navigation
+    implementation(libs.compose.wear.navigation)
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.horologist.compose.layout)
+    implementation(libs.horologist.compose.material)
+    implementation(libs.horologist.health.composables)
+    implementation(libs.horologist.health.service)
+
+    // Wear Health Services
     implementation(libs.androidx.health.services)
 
-    // Bridge between Futures and coroutines
-    implementation(libs.guava)
-    implementation(libs.concurrent.futures)
+    // Lifecycle Components
+    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.common.java8)
+    implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.lifecycle.service)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.core.splashscreen)
 
-    // Used for WorkManager
-    implementation(libs.androidx.work)
-    implementation(libs.androidx.work.ktx)
+    // Ongoing Activity
+    implementation(libs.wear.ongoing.activity)
 
-    // DataStore
-    implementation(libs.androidx.datastore)
+    // Hilt
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
 
-    // Permissions
-    implementation(libs.accompanist.permissions)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
