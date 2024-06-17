@@ -1,64 +1,106 @@
 package ua.deti.pt.wearosapp.ui
 
-import android.annotation.SuppressLint
-import android.util.Log
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberPermissionState
-import ua.deti.pt.wearosapp.PERMISSION
-import ua.deti.pt.wearosapp.TAG
-import ua.deti.pt.wearosapp.repositories.HealthServiceRepository
-import ua.deti.pt.wearosapp.theme.WearOSAppTheme
-import ua.deti.pt.wearosapp.ui.screens.ErrorScreen
-import ua.deti.pt.wearosapp.ui.screens.MainScreen
-import ua.deti.pt.wearosapp.ui.viewModels.PassiveGoalsViewModel
-import ua.deti.pt.wearosapp.ui.viewModels.PassiveGoalsViewModelFactory
-import ua.deti.pt.wearosapp.ui.viewModels.UiState
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import androidx.wear.compose.navigation.SwipeDismissableNavHost
+import androidx.wear.compose.navigation.composable
+import androidx.wear.compose.navigation.currentBackStackEntryAsState
+import com.google.android.horologist.compose.ambient.AmbientAware
+import com.google.android.horologist.compose.layout.AppScaffold
+import ua.deti.pt.wearosapp.Screen.Exercise
+import ua.deti.pt.wearosapp.Screen.ExerciseNotAvailable
+import ua.deti.pt.wearosapp.Screen.PreparingExercise
+import ua.deti.pt.wearosapp.Screen.Summary
+import ua.deti.pt.wearosapp.navigateToTopLevel
+import ua.deti.pt.wearosapp.ui.screens.ExerciseRoute
+import ua.deti.pt.wearosapp.ui.screens.PreparingExerciseRoute
+import ua.deti.pt.wearosapp.ui.screens.SummaryRoute
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@OptIn(ExperimentalPermissionsApi::class)
+/**
+ * Navigation for the WearOS App
+ */
 @Composable
 fun WearOSApp(
-    healthServiceRepository: HealthServiceRepository,
-    goalsRepository: GoalsRepository
+    navController: NavHostController,
+    onFinishActivity: () -> Unit
 ) {
-    WearOSAppTheme {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            val viewModel: PassiveGoalsViewModel = viewModel(
-                factory = PassiveGoalsViewModelFactory(
-                    healthServicesRepository = healthServiceRepository,
-                    goalsRepository = goalsRepository
-                )
-            )
 
-            val uiState by viewModel.uiState
-            val navController = rememberSwipeDismissableNavController()
+    val currentScreen by navController.currentBackStackEntryAsState()
 
-            if (uiState == UiState.Supported) {
-                Log.i(TAG, "Supported")
-                val permissionState = rememberPermissionState(
-                    permission = PERMISSION,
-                    onPermissionResult = { granted ->
-                        if (granted) viewModel.toggleEnabled()
-                    }
-                )
-                MainScreen(
-                    navController = navController,
-                    measureDataViewModel = viewModel,
-                    permissionState = permissionState
-                )
-            } else if (uiState == UiState.NotSupported) {
-                Log.i(TAG, "Not SupportedDDDDDDDDDDD")
-                ErrorScreen()
+    val isAlwaysOnScreen = currentScreen?.destination?.route in AlwaysOnRoutes
+
+    AmbientAware(
+        isAlwaysOnScreen = isAlwaysOnScreen
+    ) { ambientStateUpdate ->
+
+        AppScaffold {
+
+            SwipeDismissableNavHost(
+                navController = navController,
+                startDestination = Exercise.route
+            ) {
+                composable(PreparingExercise.route) {
+                    PreparingExerciseRoute(
+                        ambientState = ambientStateUpdate.ambientState,
+                        onStart = {
+                            navController.navigate(Exercise.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = false
+                                }
+                            }
+                        },
+                        onFinishActivity = onFinishActivity,
+                        onNoExerciseCapabilities = {
+                            navController.navigate(ExerciseNotAvailable.route) {
+                                popUpTo(navController.graph.id) {
+                                    inclusive = false
+                                }
+                            }
+                        }
+                    )
+                }
+
+                composable(Exercise.route) {
+                    ExerciseRoute(
+                        ambientState = ambientStateUpdate.ambientState,
+                        onSummary = {
+                            navController.navigateToTopLevel(
+                                Summary,
+                                Summary.buildRoute(it)
+                            )
+                        },
+                        onRestart = {
+                            navController.navigateToTopLevel(PreparingExercise)
+                        },
+                        onFinishActivity = onFinishActivity
+                    )
+                }
+
+                composable(ExerciseNotAvailable.route) {
+                    ExerciseNotAvailable
+                }
+
+                composable(
+                    Summary.route + "/{averageHeartRate}/{totalDistance}/{totalCalories}/{elapsedTime}",
+                    arguments = listOf(
+                        navArgument(Summary.averageHeartRateArg) { type = NavType.FloatType },
+                        navArgument(Summary.totalDistanceArg) { type = NavType.FloatType },
+                        navArgument(Summary.totalCaloriesArg) { type = NavType.FloatType },
+                        navArgument(Summary.elapsedTimeArg) { type = NavType.StringType }
+                    )
+                ) {
+                    SummaryRoute(
+                        onRestartClick = {
+                            navController.navigateToTopLevel(PreparingExercise)
+                        }
+                    )
+                }
             }
         }
     }
 }
+
+val AlwaysOnRoutes = listOf(PreparingExercise.route, Exercise.route)

@@ -7,36 +7,58 @@
 package ua.deti.pt.wearosapp.ui.activity
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.runtime.LaunchedEffect
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowInsetsControllerCompat
-import ua.deti.pt.wearosapp.MainApplication
+import androidx.fragment.app.FragmentActivity
+import androidx.navigation.NavHostController
+import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import dagger.hilt.android.AndroidEntryPoint
+import ua.deti.pt.wearosapp.Screen
 import ua.deti.pt.wearosapp.ui.WearOSApp
+import ua.deti.pt.wearosapp.ui.viewModels.ExerciseViewModel
 
-class MainActivity : ComponentActivity() {
+@AndroidEntryPoint
+class MainActivity : FragmentActivity() {
+
+    private lateinit var navController: NavHostController
+
+    private val exerciseViewModel by viewModels<ExerciseViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
 
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars =
-            true
+        val splash = installSplashScreen()
+        var pendingNavigation = true
+
+        splash.setKeepOnScreenCondition { pendingNavigation }
 
         super.onCreate(savedInstanceState)
 
-        val healthServicesRepository =
-            (application as MainApplication).healthServicesRepository
-
-        val goalsRepository =
-            (application as MainApplication).goalsRepository
-
-        setTheme(android.R.style.Theme_DeviceDefault)
-
         setContent {
+            navController = rememberSwipeDismissableNavController()
+
             WearOSApp(
-                healthServiceRepository = healthServicesRepository,
-                goalsRepository = goalsRepository
+                navController = navController,
+                onFinishActivity = { this.finish() }
             )
+
+            LaunchedEffect(Unit) {
+                prepareIfNoExercise()
+                pendingNavigation = false
+            }
+        }
+    }
+
+    /**
+     * Check if there's an active exercise. If true, set the destination as the
+     * Exercise Screen. If false, route to preparing a new exercise.
+     **/
+    private suspend fun prepareIfNoExercise() {
+        val isRegularLaunch = navController.currentDestination?.route == Screen.Exercise.route
+
+        if (isRegularLaunch && !exerciseViewModel.isExerciseInProgress()) {
+            navController.navigate(Screen.PreparingExercise.route)
         }
     }
 }
