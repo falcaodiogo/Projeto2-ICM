@@ -6,7 +6,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +34,9 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.withSaveLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -43,7 +45,6 @@ import androidx.compose.ui.unit.times
 import androidx.health.services.client.data.LocationAvailability
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
@@ -154,63 +155,70 @@ fun PreparingExerciseScreen(
 ) {
     val location = (uiState as? PreparingScreenState.Preparing)?.locationAvailability
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.background),
-        verticalArrangement = Arrangement.Center
-    ) {
-        Row(
-            modifier = Modifier.height(25.dp)
-        ) {
-            Text(
-                text = stringResource(id = R.string.preparing_exercise),
-                textAlign = TextAlign.Center,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 0.15f * LocalConfiguration.current.screenWidthDp.dp)
-            )
-        }
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.height(40.dp)
-        ) {
-            when (location) {
-                LocationAvailability.ACQUIRING, LocationAvailability.UNKNOWN -> ProgressBar(
-                    ambientState = ambientState,
-                    modifier = Modifier.fillMaxSize()
-                )
-
-                LocationAvailability.ACQUIRED_TETHERED, LocationAvailability.ACQUIRED_UNTETHERED -> AcquiredCheck()
-
-                else -> NotAcquired()
-            }
-        }
-
-        Text(
-            text = updatePrepareLocationStatus(
-                locationAvailability = location ?: LocationAvailability.UNAVAILABLE
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.blue_background),
+            contentDescription = "Preparing Exercise Background",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier.matchParentSize()
         )
-
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 6.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center
         ) {
-            Button(
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = stringResource(id = R.string.start),
-                onClick = onStart,
-                buttonSize = ButtonSize.Small,
-                enabled = uiState is PreparingScreenState.Preparing
+            Row(
+                modifier = Modifier.height(25.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.preparing_exercise),
+                    textAlign = TextAlign.Center,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 0.15f * LocalConfiguration.current.screenWidthDp.dp)
+                )
+            }
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.height(40.dp)
+            ) {
+                when (location) {
+                    LocationAvailability.ACQUIRING, LocationAvailability.UNKNOWN -> ProgressBar(
+                        ambientState = ambientState,
+                        modifier = Modifier.fillMaxSize()
+                    )
+
+                    LocationAvailability.ACQUIRED_TETHERED, LocationAvailability.ACQUIRED_UNTETHERED -> AcquiredCheck()
+
+                    else -> NotAcquired()
+                }
+            }
+
+            Text(
+                text = updatePrepareLocationStatus(
+                    locationAvailability = location ?: LocationAvailability.UNAVAILABLE
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
             )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 6.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Button(
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = stringResource(id = R.string.start),
+                    onClick = onStart,
+                    buttonSize = ButtonSize.Small,
+                    enabled = uiState is PreparingScreenState.Preparing
+                )
+            }
         }
     }
 }

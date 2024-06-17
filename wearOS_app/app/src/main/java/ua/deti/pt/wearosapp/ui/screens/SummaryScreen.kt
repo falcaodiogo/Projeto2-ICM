@@ -2,10 +2,15 @@
 
 package ua.deti.pt.wearosapp.ui.screens
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -54,56 +59,63 @@ fun SummaryScreen(
             last = ItemType.Chip
         )
     )
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.yellow_background),
+            contentDescription = "Summary Screen Background",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier.matchParentSize()
+        )
+        ScreenScaffold(scrollState = columnState) {
+            ScalingLazyColumn(columnState = columnState) {
 
-    ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(columnState = columnState) {
-
-            item {
-                ResponsiveListHeader(contentPadding = firstItemPadding()) {
-                    Title(text = stringResource(id = R.string.workout_complete))
+                item {
+                    ResponsiveListHeader(contentPadding = firstItemPadding()) {
+                        Title(text = stringResource(id = R.string.workout_complete))
+                    }
                 }
-            }
 
-            item {
-                SummaryFormat(
-                    value = formatElapsedTime(
-                        elapsedDuration = uiState.elapsedTime,
-                        includeSeconds = true
-                    ),
-                    metric = stringResource(id = R.string.duration),
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+                item {
+                    SummaryFormat(
+                        value = formatElapsedTime(
+                            elapsedDuration = uiState.elapsedTime,
+                            includeSeconds = true
+                        ),
+                        metric = stringResource(id = R.string.duration),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
 
-            item {
-                SummaryFormat(
-                    value = formatHeartRate(uiState.averageHeartRate),
-                    metric = stringResource(id = R.string.avgHR),
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+                item {
+                    SummaryFormat(
+                        value = formatHeartRate(uiState.averageHeartRate),
+                        metric = stringResource(id = R.string.avgHR),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
 
-            item {
-                SummaryFormat(
-                    value = formatDistanceKm(uiState.totalDistance),
-                    metric = stringResource(id = R.string.distance),
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+                item {
+                    SummaryFormat(
+                        value = formatDistanceKm(uiState.totalDistance),
+                        metric = stringResource(id = R.string.distance),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
 
-            item {
-                SummaryFormat(
-                    value = formatCalories(uiState.totalCalories),
-                    metric = stringResource(id = R.string.calories),
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+                item {
+                    SummaryFormat(
+                        value = formatCalories(uiState.totalCalories),
+                        metric = stringResource(id = R.string.calories),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
 
-            item {
-                Chip(
-                    label = stringResource(id = R.string.restart),
-                    onClick = onRestartClick
-                )
+                item {
+                    Chip(
+                        label = stringResource(id = R.string.restart),
+                        onClick = onRestartClick
+                    )
+                }
             }
         }
     }

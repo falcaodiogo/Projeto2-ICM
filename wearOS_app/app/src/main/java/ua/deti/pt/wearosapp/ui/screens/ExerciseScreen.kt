@@ -2,7 +2,9 @@
 
 package ua.deti.pt.wearosapp.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -87,15 +91,23 @@ fun ErrorStartingExerciseScreen(
     onFinishActivity: () -> Unit,
     uiState: ExerciseScreenState
 ) {
-    AlertDialog(
-        showDialog = true,
-        title = stringResource(id = R.string.error_starting_exercise),
-        message = "${uiState.error ?: stringResource(id = R.string.unknown_error)}. ${
-            stringResource(id = R.string.try_again)
-        }",
-        onCancel = onFinishActivity,
-        onOk = onRestart,
-    )
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.violet_background),
+            contentDescription = "Exercise Error Screen",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier.matchParentSize()
+        )
+        AlertDialog(
+            showDialog = true,
+            title = stringResource(id = R.string.error_starting_exercise),
+            message = "${uiState.error ?: stringResource(id = R.string.unknown_error)}. ${
+                stringResource(id = R.string.try_again)
+            }",
+            onCancel = onFinishActivity,
+            onOk = onRestart,
+        )
+    }
 }
 
 // Shows while an exercise is in progress
@@ -113,32 +125,39 @@ fun ExerciseScreen(
             last = ScalingLazyColumnDefaults.ItemType.Chip
         )
     )
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.violet_background),
+            contentDescription = "Exercise Screen Background",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier.matchParentSize()
+        )
+        ScreenScaffold(scrollState = columnState) {
+            ScalingLazyColumn(
+                columnState = columnState,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                item {
+                    DurationRow(uiState = uiState)
+                }
 
-    ScreenScaffold(scrollState = columnState) {
-        ScalingLazyColumn(
-            columnState = columnState,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            item {
-                DurationRow(uiState = uiState)
-            }
+                item {
+                    HeartRateAndCaloriesRow(uiState = uiState)
+                }
 
-            item {
-                HeartRateAndCaloriesRow(uiState = uiState)
-            }
+                item {
+                    DistanceAndLapsRow(uiState = uiState)
+                }
 
-            item {
-                DistanceAndLapsRow(uiState = uiState)
-            }
-
-            item {
-                ExerciseControlButtons(
-                    uiState = uiState,
-                    onStartClick = onStartClick,
-                    onEndClick = onEndClick,
-                    onResumeClick = onResumeClick,
-                    onPauseClick = onPauseClick
-                )
+                item {
+                    ExerciseControlButtons(
+                        uiState = uiState,
+                        onStartClick = onStartClick,
+                        onEndClick = onEndClick,
+                        onResumeClick = onResumeClick,
+                        onPauseClick = onPauseClick
+                    )
+                }
             }
         }
     }
