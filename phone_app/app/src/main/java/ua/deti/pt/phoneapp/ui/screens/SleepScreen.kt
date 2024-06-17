@@ -102,7 +102,7 @@ fun SleepScreen(
             Text(
                 text = "Your sleep",
                 color = Color.White,
-                fontSize = 36.sp,
+                fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
@@ -144,7 +144,7 @@ fun SleepScreen(
                                 ),
                                 colors = LineGraphColors(
                                     lineColor = Color.White,
-                                    pointColor = Color.Black,
+                                    pointColor = Color.Transparent,
                                     clickHighlightColor = Color.White,
                                     fillType = LineGraphFillType.Gradient(
                                         brush = Brush.verticalGradient(
@@ -175,7 +175,6 @@ fun SleepScreen(
                     .background(Color.Black)
                     .padding(16.dp)
             ) {
-                // duration of sleep
                 val duration = endTimeSleep.epochSecond - startTimeSleep.epochSecond
                 val hours = duration / 3600
                 val minutes = (duration % 3600) / 60
