@@ -25,7 +25,7 @@ import co.yml.charts.ui.linechart.model.ShadowUnderLine
 fun SingleLineChartWithGridLines(pointsData: List<Point>) {
     val popUpLabel: (Float, Float) -> String = { x, y -> "${y.toInt()} sleep at ${x.toInt()} "}
     val xAxisData = AxisData.Builder()
-        .axisStepSize(67.dp)
+        .axisStepSize(10.dp)
         .steps(pointsData.size - 1)
         .axisLineColor(Color.White)
         .axisLabelColor(Color.White)
@@ -51,7 +51,7 @@ fun SingleLineChartWithGridLines(pointsData: List<Point>) {
         xAxisData = xAxisData,
         yAxisData = yAxisData,
         gridLines = GridLines(),
-        backgroundColor = Color.Black
+        backgroundColor = Color.White
     )
     LineChart(
         modifier = Modifier

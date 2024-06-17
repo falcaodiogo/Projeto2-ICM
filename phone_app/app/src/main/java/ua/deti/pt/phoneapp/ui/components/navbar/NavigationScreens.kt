@@ -29,7 +29,7 @@ fun NavigationScreens(
     NavHost(navController, startDestination = NavItem.Home.path) {
         composable(NavItem.Home.path) { HomeScreen() }
         composable(NavItem.Notifications.path) { NotificationsScreen(navController, context) }
-        composable(NavItem.Sleep.path) { SleepScreen() }
+        composable(NavItem.Sleep.path) { SleepScreen(context) }
         composable(NavItem.Settings.path) {
             val userData = googleAuthUiClient.getSignedInUser()
             ProfileScreen(userData, onSignOut)

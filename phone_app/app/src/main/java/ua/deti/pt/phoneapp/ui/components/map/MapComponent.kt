@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddAlert
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -21,6 +22,7 @@ import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import ua.deti.pt.phoneapp.R
+import ua.deti.pt.phoneapp.ui.components.dialog.AlertDialog
 
 @Composable
 fun ShimmerEffect(showShimmer: Boolean = true) {
@@ -50,7 +52,7 @@ fun MapScreen() {
     val showShimmer = remember { mutableStateOf(true) }
 
     if (openAlertDialog.value) {
-        AlertDialogMap(
+        AlertDialog(
             onDismissRequest = { openAlertDialog.value = false },
             onConfirmation = {
                 openAlertDialog.value = false
@@ -58,7 +60,7 @@ fun MapScreen() {
             },
             dialogTitle = "Não sei como meter nos spots",
             dialogText = "This is an example of an alert dialog with buttons.",
-            icon = Icons.Default.Info
+            icon = Icons.Default.AddAlert
         )
     }
 

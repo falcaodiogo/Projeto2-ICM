@@ -21,14 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun Segments(
     onClick: () -> Unit,
     title: String,
     description: String,
-    color: Color,
-    background: Color
+    color: Color
 ) {
     Column() {
         Box(
@@ -36,7 +36,7 @@ fun Segments(
                 .fillMaxWidth()
                 .height(78.dp)
                 .clip(shape = RoundedCornerShape(16.dp))
-                .background(background)
+                .background(Color.White.copy(alpha = 0.8f))
                 .clickable { onClick() }
         ) {
             Row(
@@ -56,13 +56,13 @@ fun Segments(
                     Column(
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
-                            .padding(start = 14.dp)
+                            .padding(start = 14.dp, end = 14.dp,)
                             .fillMaxHeight(),
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(text = title.toString(), color = Color.Black)
-                        Spacer(modifier = Modifier.size(8.dp))
-                        Text(text = description.toString(), color = Color(0xFF4A4739))
+                        Spacer(modifier = Modifier.size(4.dp))
+                        Text(text = description.toString(), color = Color(0xFF4A4739), fontSize = 14.sp, lineHeight = 16.sp)
                     }
                 } else {
                     Column(

@@ -12,8 +12,8 @@ class NotificationHandler(private val context: Context) {
 
     fun showSimpleNotification() {
         val notification = NotificationCompat.Builder(context, notificationChannelID)
-            .setContentTitle("Simple Notification")
-            .setContentText("Message or text with notification")
+            .setContentTitle("Do you even lift, bro?")
+            .setContentText("Use PhoneApp to track your progress and get better every day!")
             .setSmallIcon(android.R.drawable.ic_notification_overlay)
             .setPriority(NotificationManager.IMPORTANCE_HIGH)
             .setAutoCancel(true)
@@ -25,5 +25,18 @@ class NotificationHandler(private val context: Context) {
     fun returnAllNotifications(): List<Notification> {
         val activeNotifications = notificationManager.activeNotifications
         return activeNotifications.map { it.notification }.toList()
+    }
+
+    fun getAllNotificationTitlesAndTexts(): List<Pair<String?, String?>> {
+        val activeNotifications = notificationManager.activeNotifications
+        return activeNotifications.map { Pair(it.notification.extras?.getString(NotificationCompat.EXTRA_TITLE), it.notification.extras?.getString(NotificationCompat.EXTRA_TEXT)) }
+    }
+
+    fun deleteNotification(i: Int) {
+        val activeNotifications = notificationManager.activeNotifications
+        if (i in activeNotifications.indices) {
+            val notificationId = activeNotifications[i].id
+            notificationManager.cancel(notificationId)
+        }
     }
 }
