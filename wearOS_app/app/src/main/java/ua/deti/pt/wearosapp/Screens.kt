@@ -19,6 +19,8 @@ sealed class Screen(
         const val totalCaloriesArg = "totalCalories"
         const val elapsedTimeArg = "elapsedTime"
     }
+
+    data object HomeScreen : Screen("homeScreen")
 }
 
 fun NavController.navigateToTopLevel(screen: Screen, route: String = screen.route) {
