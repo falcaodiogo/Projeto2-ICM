@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.gms.google-services")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("kotlin-kapt")
 }
 
 android {
@@ -85,6 +86,10 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.1.1")
     implementation("androidx.compose.material:material-icons-extended:1.4.3")
     implementation("com.google.maps.android:maps-compose:4.3.3")
+
+    // Room Database
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
 }
 
 secrets {
