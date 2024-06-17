@@ -84,6 +84,7 @@ dependencies {
 
     // Wear Health Services
     implementation(libs.androidx.health.services)
+    implementation("androidx.health.connect:connect-client:1.1.0-alpha07")
 
     // Lifecycle Components
     implementation(libs.androidx.lifecycle.viewmodel)

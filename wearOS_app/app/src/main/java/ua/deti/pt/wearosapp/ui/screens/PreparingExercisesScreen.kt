@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
@@ -171,7 +172,7 @@ fun PreparingExerciseScreen(
                 modifier = Modifier.height(25.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.preparing_exercise),
+                    text = stringResource(id = R.string.click_to_start_exercise),
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -179,15 +180,10 @@ fun PreparingExerciseScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 0.15f * LocalConfiguration.current.screenWidthDp.dp)
                 )
-            }
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.height(40.dp)
-            ) {
                 when (location) {
-                    LocationAvailability.ACQUIRING, LocationAvailability.UNKNOWN -> ProgressBar(
+                    LocationAvailability.ACQUIRING -> ProgressBar(
                         ambientState = ambientState,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize().size(5.dp)
                     )
 
                     LocationAvailability.ACQUIRED_TETHERED, LocationAvailability.ACQUIRED_UNTETHERED -> AcquiredCheck()
@@ -195,14 +191,13 @@ fun PreparingExerciseScreen(
                     else -> NotAcquired()
                 }
             }
-
-            Text(
-                text = updatePrepareLocationStatus(
-                    locationAvailability = location ?: LocationAvailability.UNAVAILABLE
-                ),
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
+//            Text(
+//                text = updatePrepareLocationStatus(
+//                    locationAvailability = location ?: LocationAvailability.UNAVAILABLE
+//                ),
+//                modifier = Modifier.fillMaxWidth(),
+//                textAlign = TextAlign.Center
+//            )
 
             Column(
                 modifier = Modifier

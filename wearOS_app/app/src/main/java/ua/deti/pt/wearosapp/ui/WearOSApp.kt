@@ -1,5 +1,7 @@
 package ua.deti.pt.wearosapp.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
@@ -11,6 +13,7 @@ import androidx.wear.compose.navigation.currentBackStackEntryAsState
 import com.google.android.horologist.compose.ambient.AmbientAware
 import com.google.android.horologist.compose.layout.AppScaffold
 import ua.deti.pt.wearosapp.Screen.Exercise
+import ua.deti.pt.wearosapp.Screen.HomeScreen
 import ua.deti.pt.wearosapp.Screen.ExerciseNotAvailable
 import ua.deti.pt.wearosapp.Screen.PreparingExercise
 import ua.deti.pt.wearosapp.Screen.Summary
@@ -18,10 +21,12 @@ import ua.deti.pt.wearosapp.navigateToTopLevel
 import ua.deti.pt.wearosapp.ui.screens.ExerciseRoute
 import ua.deti.pt.wearosapp.ui.screens.PreparingExerciseRoute
 import ua.deti.pt.wearosapp.ui.screens.SummaryRoute
+import ua.deti.pt.wearosapp.ui.screens.HomeScreen
 
 /**
  * Navigation for the WearOS App
  */
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @Composable
 fun WearOSApp(
     navController: NavHostController,
@@ -40,7 +45,7 @@ fun WearOSApp(
 
             SwipeDismissableNavHost(
                 navController = navController,
-                startDestination = Exercise.route
+                startDestination = HomeScreen.route
             ) {
                 composable(PreparingExercise.route) {
                     PreparingExerciseRoute(
@@ -81,6 +86,10 @@ fun WearOSApp(
 
                 composable(ExerciseNotAvailable.route) {
                     ExerciseNotAvailable
+                }
+
+                composable(HomeScreen.route) {
+                    HomeScreen(navController)
                 }
 
                 composable(
