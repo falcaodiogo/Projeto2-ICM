@@ -25,20 +25,31 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.launch
 import ua.deti.pt.phoneapp.Auth.GoogleAuthUiClient
 import ua.deti.pt.phoneapp.Auth.SignInViewModel
+import ua.deti.pt.phoneapp.database.HealthTrackerDatabase
 import ua.deti.pt.phoneapp.ui.screens.MainScreen
 import ua.deti.pt.phoneapp.ui.screens.SignInScreen
 import ua.deti.pt.phoneapp.ui.theme.PhoneAppTheme
 
 class MainActivity : ComponentActivity() {
 
+    private val db by lazy {
+        Room.databaseBuilder(
+            applicationContext,
+            HealthTrackerDatabase::class.java,
+            "health_tracker.db"
+        ).build()
+    }
+
     private val googleAuthUiClient by lazy {
         GoogleAuthUiClient(
             context = applicationContext,
-            oneTapClient = Identity.getSignInClient(applicationContext)
+            oneTapClient = Identity.getSignInClient(applicationContext),
+            userDao = db.userDao
         )
     }
 
