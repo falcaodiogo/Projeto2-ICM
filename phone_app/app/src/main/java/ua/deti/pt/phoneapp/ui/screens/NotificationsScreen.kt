@@ -102,6 +102,7 @@ fun NotificationsScreen(navController: NavHostController, context: Context) {
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 for (i in 1..notifications.size) {
+                    val notificationText = notificationHandler.getAllNotificationTitlesAndTexts()[i-1].second!!
                     if (openAlertDialog.value) {
                         AlertDialog(
                             onDismissRequest = {
@@ -113,7 +114,7 @@ fun NotificationsScreen(navController: NavHostController, context: Context) {
                                 openAlertDialog.value = false
                             },
                             dialogTitle = notificationHandler.getAllNotificationTitlesAndTexts()[i-1].first!!,
-                            dialogText = notificationHandler.getAllNotificationTitlesAndTexts()[i-1].second!!,
+                            dialogContent = { Text(text = notificationText)},
                             icon = Icons.Default.Info
                         )
                     }

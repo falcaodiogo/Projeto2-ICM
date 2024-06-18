@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAlert
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,10 +57,9 @@ fun MapScreen() {
             onDismissRequest = { openAlertDialog.value = false },
             onConfirmation = {
                 openAlertDialog.value = false
-                println("Confirmation registered")
             },
             dialogTitle = "Não sei como meter nos spots",
-            dialogText = "This is an example of an alert dialog with buttons.",
+            dialogContent = { Text(text = "This is an example of an alert dialog with buttons.")},
             icon = Icons.Default.AddAlert
         )
     }
@@ -82,9 +82,11 @@ fun MapScreen() {
                 Image(
                     painter = painterResource(id = R.drawable.locationpoint),
                     contentDescription = "",
-                    modifier = Modifier.size(50.dp).clickable {
-                        openAlertDialog.value = true
-                    }
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clickable {
+                            openAlertDialog.value = true
+                        }
                 )
             }
             MarkerComposable(
@@ -96,9 +98,11 @@ fun MapScreen() {
                 Image(
                     painter = painterResource(id = R.drawable.locationpoint),
                     contentDescription = "",
-                    modifier = Modifier.size(50.dp).clickable {
-                        openAlertDialog.value = true
-                    }
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clickable {
+                            openAlertDialog.value = true
+                        }
                 )
             }
             MarkerComposable(
@@ -110,9 +114,11 @@ fun MapScreen() {
                 Image(
                     painter = painterResource(id = R.drawable.locationpoint),
                     contentDescription = "",
-                    modifier = Modifier.size(50.dp).clickable {
-                        openAlertDialog.value = true
-                    }
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clickable {
+                            openAlertDialog.value = true
+                        }
                 )
             }
             MarkerComposable(
@@ -124,9 +130,11 @@ fun MapScreen() {
                 Image(
                     painter = painterResource(id = R.drawable.locationpoint),
                     contentDescription = "",
-                    modifier = Modifier.size(50.dp).clickable {
-                        openAlertDialog.value = true
-                    }
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clickable {
+                            openAlertDialog.value = true
+                        }
                 )
             }
         }
