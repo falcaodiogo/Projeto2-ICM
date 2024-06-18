@@ -15,7 +15,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Celebration
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.ErrorOutline
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Watch
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +38,7 @@ fun Segments(
     description: String,
     color: Color,
     hasChevron: Boolean = false,
+    exerciseStage: Int? = null
 ) {
     Column() {
         Box(
@@ -88,8 +94,25 @@ fun Segments(
                         imageVector = Icons.Default.ChevronRight,
                         contentDescription = "Chevron right",
                         tint = Color.DarkGray,
-                        modifier = Modifier.size(64.dp).padding(end = 16.dp)
+                        modifier = Modifier
+                            .size(64.dp)
+                            .padding(end = 16.dp)
                     )
+                }
+                if (exerciseStage != null) {
+                    Box(
+                        modifier = Modifier
+                            .size(34.dp)
+                            .clip(CircleShape)
+                            .align(Alignment.CenterVertically),
+                    ) {
+                        when (exerciseStage) {
+                            0 -> Icon(imageVector = Icons.Default.PlayArrow, contentDescription = "Not started", tint = Color.DarkGray)
+                            1 -> Icon(imageVector = Icons.Default.Watch, contentDescription = "In progress", tint = Color.DarkGray)
+                            2 -> Icon(imageVector = Icons.Default.Check, contentDescription = "Completed", tint = Color.Green)
+                            else -> Icon(imageVector = Icons.Default.ErrorOutline, contentDescription = "Error", tint = Color.Red)
+                        }
+                    }
                 }
             }
         }

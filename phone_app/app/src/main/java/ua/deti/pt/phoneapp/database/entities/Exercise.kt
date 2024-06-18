@@ -14,5 +14,12 @@ data class Exercise(
     val dayOfWeek: String,
     @Nonnull
     val userAssociatedId: Long,
-    val isCompleted: Boolean = false,
+    val exerciseStage: Int = 0,
 )
+
+/**
+ * Stages of the exercise:
+ *  0 - Not started
+ *  1 - In progress
+ *  2 - Completed
+ */
