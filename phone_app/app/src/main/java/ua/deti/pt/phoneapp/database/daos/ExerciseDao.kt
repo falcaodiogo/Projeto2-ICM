@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
+import kotlinx.coroutines.flow.Flow
 import ua.deti.pt.phoneapp.database.entities.Exercise
 
 @Dao
@@ -28,6 +29,6 @@ interface ExerciseDao {
 
     @Transaction
     @Query("SELECT * FROM EXERCISE WHERE userAssociatedId = :userId AND dayOfWeek = :dayOfWeek")
-    fun getExercisesByUserIdAndDay(userId: Long, dayOfWeek: String): List<Exercise>
+    fun getExercisesByUserIdAndDay(userId: Long, dayOfWeek: String): Flow<List<Exercise>>
 
 }
