@@ -4,22 +4,25 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ua.deti.pt.phoneapp.ui.events.DailyExerciseState
-import ua.deti.pt.phoneapp.ui.events.DailyExercisesEvent
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun AddExerciseDialog(
-    state: DailyExerciseState,
-    onEvent: (DailyExercisesEvent) -> Unit,
     day: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit,
+    onSaveExercise: (String, String) -> Unit
 ) {
-    onEvent(DailyExercisesEvent.SetDayOfWeek(day))
+    var exerciseType by remember { mutableStateOf("") }
+
     AlertDialog(
         modifier = modifier,
         title = {
@@ -30,19 +33,17 @@ fun AddExerciseDialog(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 TextField(
-                    value = state.exerciseType,
-                    onValueChange = { onEvent(DailyExercisesEvent.SetExerciseType(it)) },
+                    value = exerciseType,
+                    onValueChange = { exerciseType = it },
                     placeholder = { Text("Exercise Type") }
                 )
             }
         },
-        onDismissRequest = {
-            onEvent(DailyExercisesEvent.HideDialog)
-        },
+        onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(
                 onClick = {
-                    onEvent(DailyExercisesEvent.SaveDailyExercise)
+                    onSaveExercise(exerciseType, day)
                 }
             ) {
                 Text("Confirm")
@@ -50,9 +51,7 @@ fun AddExerciseDialog(
         },
         dismissButton = {
             TextButton(
-                onClick = {
-                    onEvent(DailyExercisesEvent.HideDialog)
-                }
+                onClick = onDismissRequest
             ) {
                 Text("Dismiss")
             }

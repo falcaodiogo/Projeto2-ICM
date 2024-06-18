@@ -4,18 +4,18 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ua.deti.pt.phoneapp.Auth.GoogleAuthUiClient
+import ua.deti.pt.phoneapp.data.health.DailyExerciseViewModel
+import ua.deti.pt.phoneapp.database.daos.ExerciseDao
+import ua.deti.pt.phoneapp.database.daos.UserDao
 import ua.deti.pt.phoneapp.ui.screens.HomeScreen
 import ua.deti.pt.phoneapp.ui.screens.NotificationsScreen
 import ua.deti.pt.phoneapp.ui.screens.PlannedExercises
 import ua.deti.pt.phoneapp.ui.screens.ProfileScreen
 import ua.deti.pt.phoneapp.ui.screens.SleepScreen
-import ua.deti.pt.phoneapp.ui.events.DailyExercisesViewModel
 import ua.deti.pt.phoneapp.ui.screens.DailyExercisesScreen
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
@@ -25,9 +25,15 @@ fun NavigationScreens(
     onSignOut: () -> Unit,
     googleAuthUiClient: GoogleAuthUiClient,
     context: Context,
-    exercisesViewModel: DailyExercisesViewModel
+    exerciseDao: ExerciseDao,
+    userDao: UserDao
 ) {
-    val state by exercisesViewModel._state.collectAsState()
+    val viewModel = DailyExerciseViewModel(
+        exerciseDao = exerciseDao,
+        googleAuthUiClient = googleAuthUiClient,
+        userDao = userDao
+    )
+
     NavHost(navController, startDestination = NavItem.Home.path) {
         composable(NavItem.Home.path) { googleAuthUiClient.getSignedInUser()
             ?.let { it1 -> HomeScreen(googleAuthUiClient, it1) } }
@@ -40,7 +46,7 @@ fun NavigationScreens(
         composable(NavItem.Exercises.path) { PlannedExercises(navController) }
         composable(NavItem.Exercises.path + "/{day}") {backStackEntry ->
             val day = backStackEntry.arguments?.getString("day")
-            DailyExercisesScreen(day, onEvent = exercisesViewModel::onEvent, state = state )
+            DailyExercisesScreen(day, viewModel = viewModel)
         }
     }
 }
