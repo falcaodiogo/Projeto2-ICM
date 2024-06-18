@@ -25,13 +25,16 @@ class DailyExercisesViewModel(
 
     private val _state = MutableStateFlow(DailyExerciseState())
     private val _exercises = userId?.let {
-        exerciseDao.getExercisesByUserIdAndDay(it, "").stateIn(
+        exerciseDao.getExercisesByUserId(it).stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(),
             emptyList()
         )
     }
 
+    // Diogo é aqui que está o erro also mudei para ir buscar os exercícios pelo o user e não pelo
+    // user e pelo dia que depois era um problema passar o dia para aqui depois é preciso fazer a
+    // filtragem no screen
     val state = combine(_state, _exercises) { state, exercises ->
         state.copy(exercises = exercises)
     }.stateIn(

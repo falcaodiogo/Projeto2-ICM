@@ -25,7 +25,7 @@ interface ExerciseDao {
 
     @Transaction
     @Query("SELECT * FROM EXERCISE WHERE userAssociatedId = :userId")
-    fun getExercisesByUserId(userId: Long): List<Exercise>
+    fun getExercisesByUserId(userId: Long): Flow<List<Exercise>>
 
     @Transaction
     @Query("SELECT * FROM EXERCISE WHERE userAssociatedId = :userId AND dayOfWeek = :dayOfWeek")
