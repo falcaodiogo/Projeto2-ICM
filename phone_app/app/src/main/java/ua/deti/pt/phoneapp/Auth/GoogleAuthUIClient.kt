@@ -39,7 +39,6 @@ class GoogleAuthUiClient(
         return result?.pendingIntent?.intentSender
     }
 
-    // omg Zé, isto do intent é bué esquisito, mas pesquisa e percebes, passas o intent do signIn para aqui
     suspend fun signInWithIntent(intent: Intent): SignInResult {
         val credential = oneTapClient.getSignInCredentialFromIntent(intent)
         val googleIdToken = credential.googleIdToken
@@ -83,7 +82,7 @@ class GoogleAuthUiClient(
         }
     }
 
-    private suspend fun saveUser(email: String, userName: String) {
+    private suspend fun saveUser(email: String, userName: String, stepsGoal: Int = 500) {
         // Switch to a IO Dispatcher for a background work cause room doesn't allow operations
         // involving the database in the UI thread cause it might block it
         withContext(Dispatchers.IO) {
@@ -91,12 +90,26 @@ class GoogleAuthUiClient(
             val possibleUserByName = userDao.getUserByName(userName)
 
             if (!possibleUserByName.isNotNull() && !possibleUserByEmail.isNotNull()) {
-                val newUser = User(name = userName, email = email)
+                val newUser = User(name = userName, email = email, stepsGoal = stepsGoal)
                 userDao.upsertUser(newUser)
                 Log.i("StoreUser", "User saved with success")
             } else {
                 Log.i("StoreUser", "User already exists")
             }
+        }
+    }
+
+    suspend fun getUserStepsGoal(name: String): Int {
+        return withContext(Dispatchers.IO) {
+            userDao.getUserByName(name).stepsGoal
+        }
+    }
+
+    suspend fun updateUserStepsGoal(name: String, stepsGoal: Int) {
+        withContext(Dispatchers.IO) {
+            val user = userDao.getUserByName(name)
+            user.stepsGoal = stepsGoal
+            userDao.updateUser(user)
         }
     }
 
