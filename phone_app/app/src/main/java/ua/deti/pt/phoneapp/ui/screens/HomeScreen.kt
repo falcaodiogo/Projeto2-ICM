@@ -45,14 +45,13 @@ fun HomeScreen(
 ) {
     var steps by remember { mutableStateOf(0) }
     var calories by remember { mutableStateOf(0f) }
-    var defined_user_steps_goal = 2000f
+    var definedUserStepsGoal by remember { mutableStateOf(2000f) }
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(Unit) {
         coroutineScope.launch {
-            defined_user_steps_goal =
-                userData.username?.let { googleAuthUiClient.getUserStepsGoal(it).toFloat() }!!
-            println("Defined user calories goal: $defined_user_steps_goal")
+            definedUserStepsGoal = userData.username?.let { googleAuthUiClient.getUserStepsGoal(it).toFloat() } ?: 2000f
+            println("Defined user steps goal: $definedUserStepsGoal")
         }
     }
 
@@ -63,23 +62,26 @@ fun HomeScreen(
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize()
         )
-        Column(modifier = Modifier
-            .padding(24.dp)
-            .padding(top = 70.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier
+                .padding(24.dp)
+                .padding(top = 70.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             HealthConnectScreen(onStepsAndCaloriesUpdated = { updatedSteps, updatedCalories ->
                 steps = updatedSteps
                 println("Updated steps: $steps")
                 calories = updatedCalories
-            }, onSleepDataUpdated = {
-            })
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-                Box (
-                    contentAlignment = Alignment.Center,
-                ) {
+            }, onSleepDataUpdated = {})
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                Box(contentAlignment = Alignment.Center) {
                     val progressFlow = remember { progressFlow(delayTime = 10L) }
                     val progressState = progressFlow.collectAsState(initial = 0f)
-                    val progress = 1 - (defined_user_steps_goal/steps)
-                    println("Progress: $progress")
+                    val progress = if (steps > 0) 1 - (definedUserStepsGoal / steps) else 0f
                     CircularProgressBar(
                         progress = progress,
                         startAngle = 180f,
@@ -90,6 +92,7 @@ fun HomeScreen(
                         animationOn = true
                     )
                 }
+
                 Column {
                     Box {
                         Text(text = String.format("%.01f", calories), fontSize = 40.sp)
@@ -101,12 +104,14 @@ fun HomeScreen(
                         Text(text = "km", fontSize = 20.sp, modifier = Modifier.padding(top = 48.dp))
                     }
                 }
-
             }
-            Box(modifier = Modifier
-                .height(524.dp)
-                .padding(top = 60.dp)
-                .clip(shape = RoundedCornerShape(16.dp))) {
+
+            Box(
+                modifier = Modifier
+                    .height(524.dp)
+                    .padding(top = 60.dp)
+                    .clip(shape = RoundedCornerShape(16.dp))
+            ) {
                 MapScreen()
             }
         }
