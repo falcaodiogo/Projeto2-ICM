@@ -14,6 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,7 +31,8 @@ fun Segments(
     onClick: () -> Unit,
     title: String,
     description: String,
-    color: Color
+    color: Color,
+    hasChevron: Boolean = false,
 ) {
     Column() {
         Box(
@@ -40,40 +44,52 @@ fun Segments(
                 .clickable { onClick() }
         ) {
             Row(
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = 16.dp)
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(34.dp)
-                        .clip(CircleShape)
-                        .background(color)
-                        .align(Alignment.CenterVertically)
-                )
-                if (description.isNotEmpty()) {
-                    Column(
+                Row(
+                    modifier = Modifier.padding(start = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Box(
                         modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .padding(start = 14.dp, end = 14.dp,)
-                            .fillMaxHeight(),
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(text = title.toString(), color = Color.Black)
-                        Spacer(modifier = Modifier.size(4.dp))
-                        Text(text = description.toString(), color = Color(0xFF4A4739), fontSize = 14.sp, lineHeight = 16.sp)
+                            .size(34.dp)
+                            .clip(CircleShape)
+                            .background(color)
+                            .align(Alignment.CenterVertically),
+                    )
+                    if (description.isNotEmpty()) {
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .padding(start = 14.dp, end = 14.dp,)
+                                .fillMaxHeight(),
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(text = title.toString(), color = Color.Black)
+                            Spacer(modifier = Modifier.size(4.dp))
+                            Text(text = description.toString(), color = Color(0xFF4A4739), fontSize = 14.sp, lineHeight = 16.sp)
+                        }
+                    } else {
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .padding(start = 14.dp)
+                                .fillMaxHeight(),
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(text = title.toString(), color = Color.Black)
+                        }
                     }
-                } else {
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .padding(start = 14.dp)
-                            .fillMaxHeight(),
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(text = title.toString(), color = Color.Black)
-                    }
+                }
+                if (hasChevron) {
+                    Icon(
+                        imageVector = Icons.Default.ChevronRight,
+                        contentDescription = "Chevron right",
+                        tint = Color.DarkGray,
+                        modifier = Modifier.size(64.dp).padding(end = 16.dp)
+                    )
                 }
             }
         }
