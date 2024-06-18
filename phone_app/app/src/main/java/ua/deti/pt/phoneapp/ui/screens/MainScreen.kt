@@ -15,6 +15,7 @@ import androidx.navigation.NavHostController
 import ua.deti.pt.phoneapp.Auth.GoogleAuthUiClient
 import ua.deti.pt.phoneapp.ui.components.navbar.BottomNavigationBar
 import ua.deti.pt.phoneapp.ui.components.navbar.NavigationScreens
+import ua.deti.pt.phoneapp.ui.events.DailyExercisesViewModel
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -23,12 +24,13 @@ fun MainScreen(
     navController: NavHostController,
     onSignOut: () -> Unit,
     googleAuthUiClient: GoogleAuthUiClient,
-    context: Context
+    context: Context,
+    exercisesViewModel: DailyExercisesViewModel
 ) {
     Scaffold(bottomBar = {
         BottomAppBar(
             containerColor = Color.Black,
             modifier = Modifier.height(120.dp)
         ) { BottomNavigationBar(navController = navController) }
-    }) { NavigationScreens(navController = navController, onSignOut, googleAuthUiClient, context) }
+    }) { NavigationScreens(navController = navController, onSignOut, googleAuthUiClient, context, exercisesViewModel) }
 }

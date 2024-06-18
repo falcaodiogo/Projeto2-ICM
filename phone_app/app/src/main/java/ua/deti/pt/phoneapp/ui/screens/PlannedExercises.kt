@@ -17,12 +17,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import ua.deti.pt.phoneapp.R
-import ua.deti.pt.phoneapp.database.entities.DayOfWeek
+import ua.deti.pt.phoneapp.ui.components.navbar.NavItem
 import ua.deti.pt.phoneapp.ui.components.segments.Segments
 
 @Composable
-fun PlannedExercises() {
+fun PlannedExercises(
+    navController: NavController
+) {
+    val daysOfWeek = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.exercises_background),
@@ -48,10 +52,10 @@ fun PlannedExercises() {
             }
 
             item {
-                DayOfWeek.entries.forEach { day ->
+                daysOfWeek.forEach { day ->
                     Segments(
-                        onClick = { /* TODO */ },
-                        title = day.name,
+                        onClick = { navController.navigate("${NavItem.Exercises.path}/${day}") },
+                        title = day,
                         description = "",
                         color = Color(0xFF657CF5),
                         hasChevron = true

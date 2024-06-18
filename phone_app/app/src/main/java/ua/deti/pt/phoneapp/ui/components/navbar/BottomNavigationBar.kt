@@ -1,5 +1,6 @@
 package ua.deti.pt.phoneapp.ui.components.navbar
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -8,6 +9,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -20,7 +22,7 @@ import androidx.navigation.NavHostController
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     val navItems = listOf(NavItem.Home, NavItem.Exercises, NavItem.Notifications, NavItem.Sleep, NavItem.Settings)
-    var selectedItem by rememberSaveable { mutableStateOf(0) }
+    var selectedItem by rememberSaveable { mutableIntStateOf(0) }
     val haptic = LocalHapticFeedback.current
 
     NavigationBar(containerColor = Color.Black) {
@@ -37,12 +39,12 @@ fun BottomNavigationBar(navController: NavHostController) {
                 onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     selectedItem = index
+                    // Navigate to the selected item's path
                     navController.navigate(item.path) {
                         navController.graph.startDestinationRoute?.let { route ->
                             popUpTo(route) { saveState = true }
                         }
                         launchSingleTop = true
-                        restoreState = true
                     }
                 }
             )

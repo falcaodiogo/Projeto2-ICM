@@ -4,7 +4,8 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,8 +15,8 @@ import ua.deti.pt.phoneapp.ui.screens.NotificationsScreen
 import ua.deti.pt.phoneapp.ui.screens.PlannedExercises
 import ua.deti.pt.phoneapp.ui.screens.ProfileScreen
 import ua.deti.pt.phoneapp.ui.screens.SleepScreen
-
-import androidx.lifecycle.viewmodel.compose.viewModel
+import ua.deti.pt.phoneapp.ui.events.DailyExercisesViewModel
+import ua.deti.pt.phoneapp.ui.screens.DailyExercisesScreen
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @Composable
@@ -23,9 +24,10 @@ fun NavigationScreens(
     navController: NavHostController,
     onSignOut: () -> Unit,
     googleAuthUiClient: GoogleAuthUiClient,
-    context: Context
+    context: Context,
+    exercisesViewModel: DailyExercisesViewModel
 ) {
-
+    val state by exercisesViewModel.state.collectAsState()
     NavHost(navController, startDestination = NavItem.Home.path) {
         composable(NavItem.Home.path) { HomeScreen() }
         composable(NavItem.Notifications.path) { NotificationsScreen(navController, context) }
@@ -34,6 +36,10 @@ fun NavigationScreens(
             val userData = googleAuthUiClient.getSignedInUser()
             ProfileScreen(userData, onSignOut)
         }
-        composable(NavItem.Exercises.path) { PlannedExercises() }
+        composable(NavItem.Exercises.path) { PlannedExercises(navController) }
+        composable(NavItem.Exercises.path + "/{day}") {backStackEntry ->
+            val day = backStackEntry.arguments?.getString("day")
+            DailyExercisesScreen(day, onEvent = exercisesViewModel::onEvent, state = state )
+        }
     }
 }
