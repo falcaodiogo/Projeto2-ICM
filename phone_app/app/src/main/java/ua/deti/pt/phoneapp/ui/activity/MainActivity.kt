@@ -12,6 +12,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -19,6 +20,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -31,6 +34,7 @@ import kotlinx.coroutines.launch
 import ua.deti.pt.phoneapp.Auth.GoogleAuthUiClient
 import ua.deti.pt.phoneapp.Auth.SignInViewModel
 import ua.deti.pt.phoneapp.database.HealthTrackerDatabase
+import ua.deti.pt.phoneapp.ui.events.DailyExercisesViewModel
 import ua.deti.pt.phoneapp.ui.screens.MainScreen
 import ua.deti.pt.phoneapp.ui.screens.SignInScreen
 import ua.deti.pt.phoneapp.ui.theme.PhoneAppTheme
@@ -52,6 +56,21 @@ class MainActivity : ComponentActivity() {
             userDao = db.userDao
         )
     }
+
+    private val exerciseViewModel by viewModels<DailyExercisesViewModel>(
+        factoryProducer = {
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return DailyExercisesViewModel(
+                        exerciseDao = db.exerciseDao,
+                        userDao = db.userDao,
+                        googleAuthUiClient = googleAuthUiClient
+                    ) as T
+                }
+            }
+        }
+    )
+
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -149,8 +168,9 @@ class MainActivity : ComponentActivity() {
                                             navController.popBackStack()
                                         }
                                     },
-                                    context = applicationContext
-                                    )
+                                    context = applicationContext,
+                                    exercisesViewModel = exerciseViewModel
+                                )
                             }
                         }
                     }
