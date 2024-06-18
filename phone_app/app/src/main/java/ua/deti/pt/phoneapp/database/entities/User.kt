@@ -14,6 +14,8 @@ data class User(
     val name: String,
     @Nonnull
     val email: String,
+
+    var stepsGoal: Int,
 )
 
 

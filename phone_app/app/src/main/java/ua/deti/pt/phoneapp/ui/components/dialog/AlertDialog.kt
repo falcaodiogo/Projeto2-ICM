@@ -12,7 +12,7 @@ fun AlertDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
-    dialogText: String,
+    dialogContent: @Composable () -> Unit,
     icon: ImageVector,
 ) {
     AlertDialog(
@@ -23,7 +23,7 @@ fun AlertDialog(
             Text(text = dialogTitle)
         },
         text = {
-            Text(text = dialogText)
+            dialogContent()
         },
         onDismissRequest = {
             onConfirmation()

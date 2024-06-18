@@ -29,12 +29,13 @@ fun NavigationScreens(
 ) {
     val state by exercisesViewModel.state.collectAsState()
     NavHost(navController, startDestination = NavItem.Home.path) {
-        composable(NavItem.Home.path) { HomeScreen() }
+        composable(NavItem.Home.path) { googleAuthUiClient.getSignedInUser()
+            ?.let { it1 -> HomeScreen(googleAuthUiClient, it1) } }
         composable(NavItem.Notifications.path) { NotificationsScreen(navController, context) }
         composable(NavItem.Sleep.path) { SleepScreen(context) }
         composable(NavItem.Settings.path) {
             val userData = googleAuthUiClient.getSignedInUser()
-            ProfileScreen(userData, onSignOut)
+            ProfileScreen(userData, onSignOut, context, googleAuthUiClient)
         }
         composable(NavItem.Exercises.path) { PlannedExercises(navController) }
         composable(NavItem.Exercises.path + "/{day}") {backStackEntry ->
