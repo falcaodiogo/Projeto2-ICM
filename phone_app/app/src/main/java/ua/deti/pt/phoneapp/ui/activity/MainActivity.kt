@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
             applicationContext,
             HealthTrackerDatabase::class.java,
             "health_tracker.db"
-        ).build()
+        ).allowMainThreadQueries().build()
     }
 
     private val googleAuthUiClient by lazy {

@@ -27,7 +27,7 @@ fun NavigationScreens(
     context: Context,
     exercisesViewModel: DailyExercisesViewModel
 ) {
-    val state by exercisesViewModel.state.collectAsState()
+    val state by exercisesViewModel._state.collectAsState()
     NavHost(navController, startDestination = NavItem.Home.path) {
         composable(NavItem.Home.path) { googleAuthUiClient.getSignedInUser()
             ?.let { it1 -> HomeScreen(googleAuthUiClient, it1) } }
