@@ -67,7 +67,7 @@ fun PlannedExercises(
                     Spacer(modifier = Modifier.height(15.dp))
                 }
             }
-
+            Spacer(modifier = Modifier.height(105.dp))
         }
     }
 }

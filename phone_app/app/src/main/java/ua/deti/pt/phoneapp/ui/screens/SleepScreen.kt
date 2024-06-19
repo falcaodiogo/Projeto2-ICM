@@ -34,7 +34,7 @@ import ua.deti.pt.phoneapp.R
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.time.Duration
+
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @Composable
 fun SleepScreen(
@@ -45,7 +45,6 @@ fun SleepScreen(
     var dataProcessed by remember { mutableStateOf(false) }
     var startTimeSleep by remember { mutableStateOf(Instant.now()) }
     var endTimeSleep by remember { mutableStateOf(Instant.now()) }
-    var duration by remember { mutableStateOf(Duration.ZERO) }
     val formatter = DateTimeFormatter.ofPattern("HH:mm").withZone(ZoneId.systemDefault())
     val stageMap = mapOf(
         2f to "REM",
@@ -83,7 +82,6 @@ fun SleepScreen(
         pointsData.value = newPointsData
         startTimeSleep = sessionRecords.value.first().startTime
         endTimeSleep = sessionRecords.value.last().endTime
-        duration = Duration.between(startTimeSleep, endTimeSleep)
         dataProcessed = true
     }
 
@@ -177,8 +175,12 @@ fun SleepScreen(
                     .background(Color.Black)
                     .padding(16.dp)
             ) {
+                // subtract 24 hours
+                val duration = endTimeSleep.epochSecond - startTimeSleep.epochSecond - 86400
+                val hours = duration / 3600
+                val minutes = (duration % 3600) / 60
                 Text(
-                    text = "Your sleep duration was: $duration",
+                    text = "Your sleep duration was: $hours hours and $minutes minutes",
                     color = Color.White
                 )
             }
