@@ -57,8 +57,8 @@ fun MapScreen() {
             onConfirmation = {
                 openAlertDialog.value = false
             },
-            dialogTitle = "Não sei como meter nos spots",
-            dialogContent = { Text(text = "This is an example of an alert dialog with buttons.")},
+            dialogTitle = "Places to exercise in Aveiro",
+            dialogContent = { Text(text = "You can exercise in the following places: \n\n1. Parque Infante D. Pedro\n2. Parque da Cidade\n3. Parque de Santiago\n4. Parque de Santo António\n\nRemember to follow the safety guidelines!")},
             icon = Icons.Default.AddAlert
         )
     }
@@ -68,6 +68,15 @@ fun MapScreen() {
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState,
             onMapLoaded = { showShimmer.value = false },
+            onPOIClick = {
+                openAlertDialog.value = true
+            },
+            onMapClick = {
+                openAlertDialog.value = true
+            },
+            onMyLocationClick = {
+                openAlertDialog.value = true
+            }
         ) {
             MarkerComposable(
                 state = MarkerState(position = locationMap),
@@ -76,7 +85,7 @@ fun MapScreen() {
                 },
                 onInfoWindowLongClick = {
                     openAlertDialog.value = true
-                }
+                },
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.locationpoint),
@@ -92,7 +101,7 @@ fun MapScreen() {
                 state = MarkerState(position = locationMap2),
                 onInfoWindowClick = {
                     openAlertDialog.value = true
-                }
+                },
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.locationpoint),

@@ -118,14 +118,18 @@ fun SleepScreen(
                         Column {
                             Text(
                                 modifier = Modifier.padding(top = 10.dp, start = 12.dp),
-                                text = "REM"
+                                text = "Deep sleep"
                             )
                             Text(
                                 modifier = Modifier.padding(top = 150.dp, start = 12.dp),
+                                text = "REM"
+                            )
+                            Text(
+                                modifier = Modifier.padding(top = 40.dp, start = 12.dp),
                                 text = "Light sleep"
                             )
                             Text(
-                                modifier = Modifier.padding(top = 95.dp, start = 12.dp),
+                                modifier = Modifier.padding(top = 30.dp, start = 12.dp),
                                 text = "Awake"
                             )
                         }
@@ -175,7 +179,6 @@ fun SleepScreen(
                     .background(Color.Black)
                     .padding(16.dp)
             ) {
-                // subtract 24 hours
                 val duration = endTimeSleep.epochSecond - startTimeSleep.epochSecond - 86400
                 val hours = duration / 3600
                 val minutes = (duration % 3600) / 60
