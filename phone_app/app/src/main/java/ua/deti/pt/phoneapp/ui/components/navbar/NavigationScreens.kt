@@ -46,7 +46,7 @@ fun NavigationScreens(
         composable(NavItem.Exercises.path) { PlannedExercises(navController) }
         composable(NavItem.Exercises.path + "/{day}") {backStackEntry ->
             val day = backStackEntry.arguments?.getString("day")
-            DailyExercisesScreen(day, viewModel = viewModel)
+            DailyExercisesScreen(day, viewModel = viewModel, context)
         }
     }
 }

@@ -22,8 +22,12 @@ class DailyExerciseViewModel(
 
     private val _uiState = MutableStateFlow<DailyExercisesUiState>(DailyExercisesUiState.Loading)
     val uiState: StateFlow<DailyExercisesUiState> = _uiState.asStateFlow()
+
     private val _showAddExerciseDialog = MutableStateFlow(false)
     val showAddExerciseDialog: StateFlow<Boolean> = _showAddExerciseDialog.asStateFlow()
+
+    private val _showUpdateStateDialog = MutableStateFlow(false)
+    val showUpdateStateDialog: StateFlow<Boolean> = _showUpdateStateDialog.asStateFlow()
     private var userId: Long? = null
 
     init {
@@ -62,10 +66,19 @@ class DailyExerciseViewModel(
         if (exercise != null) {
             viewModelScope.launch {
                 exerciseDao.upsertExercise(exercise)
+                dismissAddExerciseDialog()
                 Log.i("DailyExerciseViewModel", "Exercise upserted")
             }
         } else {
             Log.e("DailyExerciseViewModel", "Exercise not upserted")
+        }
+    }
+
+    fun updateExerciseState(exercise: Exercise, state: Int) {
+        val updatedExercise = exercise.copy(exerciseStage = state)
+        viewModelScope.launch {
+            exerciseDao.upsertExercise(updatedExercise)
+            Log.i("DailyExerciseViewModel", "Exercise state updated")
         }
     }
 
@@ -75,6 +88,14 @@ class DailyExerciseViewModel(
 
     fun dismissAddExerciseDialog() {
         _showAddExerciseDialog.value = false
+    }
+
+    fun showUpdateStateDialog() {
+        _showUpdateStateDialog.value = true
+    }
+
+    fun dismissUpdateStateDialog() {
+        _showUpdateStateDialog.value = false
     }
 
 }

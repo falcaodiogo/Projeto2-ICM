@@ -9,7 +9,8 @@ import ua.deti.pt.phoneapp.database.entities.User
 
 @Database(
     entities = [User::class, Exercise::class],
-    version = 1
+    version = 1,
+    exportSchema = true
 )
 abstract class HealthTrackerDatabase: RoomDatabase() {
 

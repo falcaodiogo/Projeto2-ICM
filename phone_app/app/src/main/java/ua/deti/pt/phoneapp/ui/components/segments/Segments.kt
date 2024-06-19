@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.PlayArrow
@@ -100,18 +101,31 @@ fun Segments(
                     )
                 }
                 if (exerciseStage != null) {
-                    Box(
-                        modifier = Modifier
-                            .size(34.dp)
-                            .clip(CircleShape)
-                            .align(Alignment.CenterVertically),
-                    ) {
-                        when (exerciseStage) {
-                            0 -> Icon(imageVector = Icons.Default.PlayArrow, contentDescription = "Not started", tint = Color.DarkGray)
-                            1 -> Icon(imageVector = Icons.Default.Watch, contentDescription = "In progress", tint = Color.DarkGray)
-                            2 -> Icon(imageVector = Icons.Default.Check, contentDescription = "Completed", tint = Color.Green)
-                            else -> Icon(imageVector = Icons.Default.ErrorOutline, contentDescription = "Error", tint = Color.Red)
-                        }
+                    when (exerciseStage) {
+                        0 -> Icon(
+                            modifier = Modifier.size(48.dp).padding(end = 16.dp),
+                            imageVector = Icons.Default.PlayArrow,
+                            contentDescription = "Not started",
+                            tint = Color.DarkGray,
+                        )
+                        1 -> Icon(
+                            modifier = Modifier.size(48.dp).padding(end = 16.dp),
+                            imageVector = Icons.Default.Watch,
+                            contentDescription = "In progress",
+                            tint = Color.DarkGray,
+                        )
+                        2 -> Icon(
+                            modifier = Modifier.size(48.dp).padding(end = 16.dp),
+                            imageVector = Icons.Default.CheckCircle,
+                            contentDescription = "Completed",
+                            tint = Color.DarkGray,
+                        )
+                        else -> Icon(
+                            imageVector = Icons.Default.ErrorOutline,
+                            contentDescription = "Error",
+                            tint = Color.Red,
+                            modifier = Modifier.size(48.dp).padding(end = 16.dp)
+                        )
                     }
                 }
             }

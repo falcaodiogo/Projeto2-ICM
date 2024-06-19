@@ -12,8 +12,8 @@ class NotificationHandler(private val context: Context) {
 
     fun showSimpleNotification() {
         val notification = NotificationCompat.Builder(context, notificationChannelID)
-            .setContentTitle("Do you even lift, bro?")
-            .setContentText("Use PhoneApp to track your progress and get better every day!")
+            .setContentTitle("Congratulations!")
+            .setContentText("You manage to complete all your daily exercises!")
             .setSmallIcon(android.R.drawable.ic_notification_overlay)
             .setPriority(NotificationManager.IMPORTANCE_HIGH)
             .setAutoCancel(true)
