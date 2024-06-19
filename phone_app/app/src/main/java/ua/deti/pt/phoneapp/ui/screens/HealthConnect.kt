@@ -160,7 +160,7 @@ suspend fun readSleepData(
                 SleepSessionRecord::class,
                 timeRangeFilter = TimeRangeFilter.between(
                     // 24 hours
-                    Instant.now().minus(1, ChronoUnit.DAYS),
+                    Instant.now().minus(2, ChronoUnit.DAYS),
                     Instant.now()
                 )
             )
