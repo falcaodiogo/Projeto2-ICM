@@ -3,6 +3,9 @@
 Health Tracker is a health application aimed at improving user well-being through both a mobile and WearOS platform integration. The mobile app provides extensive health monitoring capabilities, while the WearOS app offers real-time health monitoring during physical activities.
 This application was develop 
 
+## Grade
+17
+
 ## Application Concept
 **HealthTracker** is a health companion app for Android and WearOS that utilizes the HealthConnect API to measure health metrics. The mobile app includes:
 - **SignInScreen**: Google sign-in for authentication.
